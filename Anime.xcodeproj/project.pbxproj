@@ -1,0 +1,303 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7C7B89091F490873009D5C8B /* Anime.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7B89081F490873009D5C8B /* Anime.h */; };
+		7C7B890B1F490873009D5C8B /* Anime.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B890A1F490873009D5C8B /* Anime.m */; };
+		7C7B890D1F490873009D5C8B /* Anime.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B890C1F490873009D5C8B /* Anime.tiff */; };
+		7C7B89101F490873009D5C8B /* Anime.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B890E1F490873009D5C8B /* Anime.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7C7B89051F490873009D5C8B /* Anime.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Anime.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C7B89081F490873009D5C8B /* Anime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Anime.h; sourceTree = "<group>"; };
+		7C7B890A1F490873009D5C8B /* Anime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Anime.m; sourceTree = "<group>"; };
+		7C7B890C1F490873009D5C8B /* Anime.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Anime.tiff; sourceTree = "<group>"; };
+		7C7B890F1F490873009D5C8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Anime.xib; sourceTree = "<group>"; };
+		7C7B89111F490873009D5C8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7C7B89011F490873009D5C8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7C7B88FB1F490873009D5C8B = {
+			isa = PBXGroup;
+			children = (
+				7C7B89071F490873009D5C8B /* Anime */,
+				7C7B89061F490873009D5C8B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7C7B89061F490873009D5C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B89051F490873009D5C8B /* Anime.prefPane */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7C7B89071F490873009D5C8B /* Anime */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B89081F490873009D5C8B /* Anime.h */,
+				7C7B890A1F490873009D5C8B /* Anime.m */,
+				7C7B890C1F490873009D5C8B /* Anime.tiff */,
+				7C7B890E1F490873009D5C8B /* Anime.xib */,
+				7C7B89111F490873009D5C8B /* Info.plist */,
+			);
+			path = Anime;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7C7B89021F490873009D5C8B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C7B89091F490873009D5C8B /* Anime.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7C7B89041F490873009D5C8B /* Anime */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C7B89141F490873009D5C8B /* Build configuration list for PBXNativeTarget "Anime" */;
+			buildPhases = (
+				7C7B89001F490873009D5C8B /* Sources */,
+				7C7B89011F490873009D5C8B /* Frameworks */,
+				7C7B89021F490873009D5C8B /* Headers */,
+				7C7B89031F490873009D5C8B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Anime;
+			productName = Anime;
+			productReference = 7C7B89051F490873009D5C8B /* Anime.prefPane */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7C7B88FC1F490873009D5C8B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Lucy Zhang";
+				TargetAttributes = {
+					7C7B89041F490873009D5C8B = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 65ZN6CM2H7;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7C7B88FF1F490873009D5C8B /* Build configuration list for PBXProject "Anime" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7C7B88FB1F490873009D5C8B;
+			productRefGroup = 7C7B89061F490873009D5C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7C7B89041F490873009D5C8B /* Anime */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7C7B89031F490873009D5C8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C7B89101F490873009D5C8B /* Anime.xib in Resources */,
+				7C7B890D1F490873009D5C8B /* Anime.tiff in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7C7B89001F490873009D5C8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C7B890B1F490873009D5C8B /* Anime.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7C7B890E1F490873009D5C8B /* Anime.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7C7B890F1F490873009D5C8B /* Base */,
+			);
+			name = Anime.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7C7B89121F490873009D5C8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7C7B89131F490873009D5C8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7C7B89151F490873009D5C8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 65ZN6CM2H7;
+				INFOPLIST_FILE = Anime/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				PRODUCT_BUNDLE_IDENTIFIER = lucy.Anime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Debug;
+		};
+		7C7B89161F490873009D5C8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 65ZN6CM2H7;
+				INFOPLIST_FILE = Anime/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				PRODUCT_BUNDLE_IDENTIFIER = lucy.Anime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7C7B88FF1F490873009D5C8B /* Build configuration list for PBXProject "Anime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C7B89121F490873009D5C8B /* Debug */,
+				7C7B89131F490873009D5C8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C7B89141F490873009D5C8B /* Build configuration list for PBXNativeTarget "Anime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C7B89151F490873009D5C8B /* Debug */,
+				7C7B89161F490873009D5C8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7C7B88FC1F490873009D5C8B /* Project object */;
+}
