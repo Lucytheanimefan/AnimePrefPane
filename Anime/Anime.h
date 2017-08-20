@@ -10,6 +10,8 @@
 
 @interface Anime : NSPreferencePane
 
+@property (weak) IBOutlet NSOutlineView *sourceList;
+
 - (void)mainViewDidLoad;
 
 @end
