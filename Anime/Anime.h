@@ -8,9 +8,11 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
-@interface Anime : NSPreferencePane
+@interface Anime : NSPreferencePane<NSTableViewDelegate, NSTableViewDataSource>
 
-@property (weak) IBOutlet NSOutlineView *sourceList;
+@property (nonatomic) NSArray *sources;
+@property (weak) IBOutlet NSTableView *sourceTable;
+
 
 - (void)mainViewDidLoad;
 

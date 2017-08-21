@@ -23,7 +23,7 @@
 	<key>NSMainNibFile</key>
 	<string>Anime</string>
 	<key>NSPrefPaneIconFile</key>
-	<string>Anime.tiff</string>
+	<string>transparentapple.png</string>
 	<key>NSPrefPaneIconLabel</key>
 	<string>Anime</string>
 	<key>NSPrincipalClass</key>
