@@ -12,10 +12,8 @@
 
 @property (nonatomic, weak) IBOutlet NSImageView *iconImage;
 
-@property (nonatomic, weak) IBOutlet NSTextField *title;
+@property (nonatomic, weak) IBOutlet NSTextField *sourceTitle;
 
 @property (nonatomic, weak) IBOutlet NSTextField *subtitle;
-
-
 
 @end

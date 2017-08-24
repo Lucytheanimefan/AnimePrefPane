@@ -34,14 +34,22 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
+    NSLog(@"%lu", (unsigned long)self.sources.count);
     return self.sources.count;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    CustomCell *view = [[CustomCell alloc] init];
-    view.title.stringValue = self.sources[row];
+    NSView *view = [tableView makeViewWithIdentifier:@"CustomCell" owner:nil];
+
+    ((CustomCell *)view).sourceTitle.stringValue = self.sources[row];
+    NSLog(@"Source: %@", self.sources[row]);
+    ((CustomCell *)view).subtitle.placeholderString = @"TEST";
+
+    NSLog(@"title: %@, subtitle: %@", ((CustomCell *)view).sourceTitle.stringValue, ((CustomCell *)view).subtitle.stringValue);
     
+    NSLog(@"Placeholders: %@", ((CustomCell *)view).sourceTitle.placeholderString);
+
     return view;
 }
 

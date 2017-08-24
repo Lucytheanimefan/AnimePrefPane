@@ -50,14 +50,14 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="yHd-Ln-NPA" customClass="CustomCell">
+                                                <tableCellView identifier="CustomCell" id="yHd-Ln-NPA" customClass="CustomCell">
                                                     <rect key="frame" x="1" y="1" width="182" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jfR-i9-5gP">
                                                             <rect key="frame" x="3" y="0.0" width="35" height="35"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="6um-YH-um7"/>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="software" id="6um-YH-um7"/>
                                                             <connections>
                                                                 <binding destination="yHd-Ln-NPA" name="value" keyPath="objectValue.iconImage" id="1SK-7d-rcV"/>
                                                             </connections>
@@ -65,13 +65,13 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpR-bW-5zZ">
                                                             <rect key="frame" x="44" y="15" width="137" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Title" id="cUk-HF-Msx">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Title" placeholderString="Title" id="cUk-HF-Msx">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.title" id="cXF-Ss-Puc">
+                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.sourceTitle" id="zTy-lh-bbm">
                                                                     <dictionary key="options">
                                                                         <string key="NSDisplayPattern">%{value1}@</string>
                                                                     </dictionary>
@@ -81,13 +81,13 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhr-Gf-SP2">
                                                             <rect key="frame" x="44" y="0.0" width="137" height="14"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Subtitle" id="a0s-kF-UUp">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="subtitle" placeholderString="Subtitle" id="a0s-kF-UUp">
                                                                 <font key="font" metaFont="system" size="11"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.subtitle" id="Mwl-eT-YKy">
+                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.subtitle" id="huP-Zy-9nV">
                                                                     <dictionary key="options">
                                                                         <string key="NSDisplayPattern">%{value1}@</string>
                                                                     </dictionary>
@@ -122,4 +122,7 @@
             </connections>
         </window>
     </objects>
+    <resources>
+        <image name="software" width="128" height="128"/>
+    </resources>
 </document>
