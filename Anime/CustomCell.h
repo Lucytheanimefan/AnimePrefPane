@@ -10,10 +10,13 @@
 
 @interface CustomCell : NSTableCellView
 
-@property (nonatomic, weak) IBOutlet NSImageView *iconImage;
+@property (assign) IBOutlet NSImageView *iconImage;
 
-@property (nonatomic, weak) IBOutlet NSTextField *sourceTitle;
+@property (assign) IBOutlet NSTextField *sourceTitle;
 
-@property (nonatomic, weak) IBOutlet NSTextField *subtitle;
+@property (assign) IBOutlet NSTextField *subtitle;
+
+
+
 
 @end

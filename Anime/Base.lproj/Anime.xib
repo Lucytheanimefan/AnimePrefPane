@@ -37,7 +37,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn width="182" minWidth="40" maxWidth="1000" id="TAa-Gi-tgV">
+                                        <tableColumn identifier="Source" width="182" minWidth="40" maxWidth="1000" id="TAa-Gi-tgV">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -54,40 +54,44 @@
                                                     <rect key="frame" x="1" y="1" width="182" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jfR-i9-5gP">
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jfR-i9-5gP" userLabel="iconImage">
                                                             <rect key="frame" x="3" y="0.0" width="35" height="35"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="software" id="6um-YH-um7"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="35" id="VbV-yD-azj"/>
+                                                                <constraint firstAttribute="height" constant="35" id="cib-eg-VTk"/>
+                                                            </constraints>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="transparentapple" id="6um-YH-um7"/>
                                                             <connections>
-                                                                <binding destination="yHd-Ln-NPA" name="value" keyPath="objectValue.iconImage" id="1SK-7d-rcV"/>
+                                                                <binding destination="yHd-Ln-NPA" name="value" keyPath="objectValue.iconImage" id="DuV-tb-ErZ"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpR-bW-5zZ">
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpR-bW-5zZ">
                                                             <rect key="frame" x="44" y="15" width="137" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="133" id="nrS-KD-laB"/>
+                                                            </constraints>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Title" placeholderString="Title" id="cUk-HF-Msx">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.sourceTitle" id="zTy-lh-bbm">
+                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.sourceTitle" id="KTr-Xx-PvU">
                                                                     <dictionary key="options">
                                                                         <string key="NSDisplayPattern">%{value1}@</string>
                                                                     </dictionary>
                                                                 </binding>
                                                             </connections>
                                                         </textField>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhr-Gf-SP2">
-                                                            <rect key="frame" x="44" y="0.0" width="137" height="14"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhr-Gf-SP2">
+                                                            <rect key="frame" x="44" y="3" width="137" height="14"/>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="subtitle" placeholderString="Subtitle" id="a0s-kF-UUp">
                                                                 <font key="font" metaFont="system" size="11"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.subtitle" id="huP-Zy-9nV">
+                                                                <binding destination="yHd-Ln-NPA" name="displayPatternValue1" keyPath="objectValue.subtitle" id="gOm-Vp-8Q8">
                                                                     <dictionary key="options">
                                                                         <string key="NSDisplayPattern">%{value1}@</string>
                                                                     </dictionary>
@@ -95,6 +99,20 @@
                                                             </connections>
                                                         </textField>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="wpR-bW-5zZ" firstAttribute="leading" secondItem="bhr-Gf-SP2" secondAttribute="leading" id="0nQ-b0-jWG"/>
+                                                        <constraint firstItem="wpR-bW-5zZ" firstAttribute="leading" secondItem="jfR-i9-5gP" secondAttribute="trailing" constant="8" symbolic="YES" id="G5b-1c-CTu"/>
+                                                        <constraint firstItem="wpR-bW-5zZ" firstAttribute="top" secondItem="yHd-Ln-NPA" secondAttribute="top" constant="3" id="Jds-Em-Jn5"/>
+                                                        <constraint firstItem="jfR-i9-5gP" firstAttribute="centerY" secondItem="yHd-Ln-NPA" secondAttribute="centerY" id="RY5-nN-VMS"/>
+                                                        <constraint firstItem="wpR-bW-5zZ" firstAttribute="trailing" secondItem="bhr-Gf-SP2" secondAttribute="trailing" id="lnp-O6-I8a"/>
+                                                        <constraint firstAttribute="trailing" secondItem="wpR-bW-5zZ" secondAttribute="trailing" constant="3" id="ly8-dm-Zon"/>
+                                                        <constraint firstAttribute="bottom" secondItem="bhr-Gf-SP2" secondAttribute="bottom" constant="3" id="sEm-TY-k68"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="iconImage" destination="jfR-i9-5gP" id="hnW-7o-cwb"/>
+                                                        <outlet property="sourceTitle" destination="wpR-bW-5zZ" id="DR7-K3-nmf"/>
+                                                        <outlet property="subtitle" destination="bhr-Gf-SP2" id="dey-Sx-frx"/>
+                                                    </connections>
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
@@ -123,6 +141,6 @@
         </window>
     </objects>
     <resources>
-        <image name="software" width="128" height="128"/>
+        <image name="transparentapple" width="2000" height="2380"/>
     </resources>
 </document>
