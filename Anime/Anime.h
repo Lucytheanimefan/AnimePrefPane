@@ -12,7 +12,9 @@
 
 @property (nonatomic) NSArray *sources;
 @property (weak) IBOutlet NSTableView *sourceTable;
+@property (unsafe_unretained) IBOutlet NSTextView *textView;
 
+@property (weak) IBOutlet NSTextField *usernameField;
 
 - (void)mainViewDidLoad;
 

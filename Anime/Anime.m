@@ -10,6 +10,9 @@
 #import "CustomCell.h"
 #import <os/log.h>
 
+
+#define MAL @"MyAnimeList"
+
 @implementation Anime
 
 @synthesize sources = _sources;
@@ -25,7 +28,7 @@
 {
     if (!_sources)
     {
-        _sources = @[@"Crunchyroll", @"Funimation"];
+        _sources = @[@"MyAnimeList",@"Crunchyroll", @"Funimation"];
     }
     return _sources;
 }
@@ -44,22 +47,24 @@
     {
         CustomCell *view = [tableView makeViewWithIdentifier:@"CustomCell" owner:nil];
         
-        // view.iconImage.image = [[NSImage alloc]initWithContentsOfFile:@"transparentapple.png"];
-        //    view.sourceTitle.stringValue = self.sources[row];
-        //    NSLog(@"Source: %@", self.sources[row]);
-        //    view.subtitle.placeholderString = @"TEST";
+         view.iconImage.image = [[NSImage alloc]initWithContentsOfFile:@"transparentapple.png"];
         
         [view.sourceTitle setStringValue:self.sources[row]];
         [view.subtitle setStringValue:@"Test subtitle"];
-        
-        
-        NSLog(@"title: %@, subtitle: %@", view.sourceTitle.stringValue, view.subtitle.stringValue);
-        
-        NSLog(@"Placeholders: %@", view.sourceTitle.placeholderString);
-        
+
         return view;
     }
     return nil;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+    NSInteger row = [_sourceTable selectedRow];
+    NSString *source = self.sources[row];
+    if ([source isEqualToString:MAL])
+    {
+        [_textView setString:@"Test MAL view"];
+    }
 }
 
 @end

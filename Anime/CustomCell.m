@@ -14,10 +14,5 @@
 @synthesize iconImage = _iconImage;
 @synthesize subtitle = _subtitle;
 
-//- (void)drawRect:(NSRect)dirtyRect {
-//    [super drawRect:dirtyRect];
-//    
-//    // Drawing code here.
-//}
 
 @end
