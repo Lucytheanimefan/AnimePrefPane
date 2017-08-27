@@ -31,7 +31,7 @@
 @implementation Anime
 {
     NSArray <NSDictionary *> *malEntries;
-    
+    NSString *malUsername;
 }
 
 @synthesize sources = _sources;
@@ -45,7 +45,22 @@
     _outlineView.delegate = self;
     
     malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
-    //NSLog(@"User defaults: %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"]);
+    
+    [_usernameField setTarget:self];
+    [_usernameField setAction:@selector(setUsername:)];
+    
+    malUsername = (NSString *)([[NSUserDefaults standardUserDefaults] objectForKey:@"malUsername"]);
+    _usernameField.stringValue = malUsername;
+    
+}
+
+- (void)setUsername:(id)sender
+{
+    if ([_usernameField.stringValue length] > 0)
+    {
+        malUsername = _usernameField.stringValue;
+        [[NSUserDefaults standardUserDefaults] setObject:malUsername forKey:@"malUsername"];
+    }
 }
 
 - (NSArray *) sources
@@ -71,6 +86,7 @@
     {
         CustomCell *view = [tableView makeViewWithIdentifier:@"CustomCell" owner:nil];
         
+        // TODO: pick images
          view.iconImage.image = [[NSImage alloc]initWithContentsOfFile:@"transparentapple.png"];
         
         [view.sourceTitle setStringValue:self.sources[row]];
@@ -85,14 +101,12 @@
 {
     NSInteger row = [_sourceTable selectedRow];
     NSString *source = self.sources[row];
-    NSString *username = _usernameField.stringValue;
     BOOL timeToRefresh = !malEntries || false;//true; // TODO
     if ([source isEqualToString:MAL])
     {
-        [_textView setString:@"Test MAL view"];
         if (timeToRefresh)
         {
-            [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",username] withCompletion:^(NSDictionary * json) {
+            [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
                 malEntries = (NSArray *)json;
                 [[NSUserDefaults standardUserDefaults] setObject:malEntries forKey:@"malEntries"];
                 
