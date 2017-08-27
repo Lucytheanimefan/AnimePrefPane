@@ -16,9 +16,22 @@
 
 #define MAL @"MyAnimeList"
 
+@interface AnimeEntry : NSObject
+
+@property (assign, readwrite) NSString *title;
+@property (assign, readwrite) NSString *value;
+
+@end
+
+@implementation AnimeEntry
+
+@end
+
+
 @implementation Anime
 {
     NSArray <NSDictionary *> *malEntries;
+    
 }
 
 @synthesize sources = _sources;
@@ -73,10 +86,11 @@
     NSInteger row = [_sourceTable selectedRow];
     NSString *source = self.sources[row];
     NSString *username = _usernameField.stringValue;
+    BOOL timeToRefresh = !malEntries || false;//true; // TODO
     if ([source isEqualToString:MAL])
     {
         [_textView setString:@"Test MAL view"];
-        if (!malEntries)
+        if (timeToRefresh)
         {
             [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",username] withCompletion:^(NSDictionary * json) {
                 malEntries = (NSArray *)json;
@@ -104,46 +118,94 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    NSLog(@"Expandable item? %hhd", [item isKindOfClass:[NSDictionary class]]);
     return ([item isKindOfClass:[NSDictionary class]]);
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-    NSString *label;
-    NSLog(@"ITEM: %@", item);
-    if (/*[item isKindOfClass:[NSDictionary class]] ||*/ !item)
+    AnimeEntry *entry = [[AnimeEntry alloc] init];
+    
+    if ([item isKindOfClass:[NSDictionary class]])
     {
-        return malEntries[index];
-    }
-    else if ([item isKindOfClass:[NSDictionary class]])
-    {
-        // it's a dictionary, not an array, fix
         switch (index) {
             case kIdentifier:
-                label = [NSString stringWithFormat:@"%@", item[@"anime_id"]];
+                entry.value = [NSString stringWithFormat:@"%@", item[@"anime_id"]];
+                entry.title = @"Anime Id";
                 break;
             case kAiringStatus:
-                label = [NSString stringWithFormat:@"%@", item[@"airing_status"]];
+            {
+                NSLog(@"Airing status type: %@", [item[@"airing_status"] className]);
+                NSInteger airingStatus = [item[@"airing_status"] integerValue];
+                switch (airingStatus) {
+                    case 1:
+                        entry.value = @"Airing";
+                        break;
+                    case 2:
+                        entry.value = @"Aired";
+                        break;
+                    case 3:
+                        entry.value = @"Not aired";
+                        break;
+                    default:
+                        break;
+                }
+
+                entry.title = @"Airing Status";
                 break;
+            }
             case kEpisodes:
-                label = [NSString stringWithFormat:@"%@", item[@"total_episodes"]];
+
+                entry.value = [NSString stringWithFormat:@"%@", item[@"total_episodes"]];
+                entry.title = @"Total Episodes";
                 break;
             case kScore:
-                label = [NSString stringWithFormat:@"%@",item[@"user_score"]];
+
+                entry.value = [NSString stringWithFormat:@"%@",item[@"user_score"]];
+                entry.title = @"Score";
                 break;
             case kStatus:
-                label = [NSString stringWithFormat:@"%@", item[@"user_status"]];
+            {
+                NSInteger userStatus = [item[@"user_status"] integerValue];
+                switch (userStatus) {
+                    case 1:
+                        entry.value = @"Watching";
+                        break;
+                    case 2:
+                        entry.value = @"Completed";
+                        break;
+                    case 3:
+                        entry.value = @"On hold";
+                        break;
+                    case 4:
+                        entry.value = @"Dropped";
+                        break;
+                    case 6:
+                        entry.value = @"Plan to watch";
+                        break;
+                    default:
+                        break;
+                }
+
+                entry.title = @"User Status";
                 break;
+            }
             case kWatchedEps:
-                label = [NSString stringWithFormat:@"%@", item[@"watched_episodes"]];
+                entry.value = [NSString stringWithFormat:@"%@", item[@"watched_episodes"]];
+                entry.title = @"Watched episodes";
                 break;
             default:
-                label = @"None";
+                NSLog(@"Item for none: %@, index: %ld", item, (long)index);
+                entry.value = @"None";
+                entry.title = @"None";
                 break;
         }
     }
-    return label;
+    else
+    {
+        return malEntries[index];
+    }
+    
+    return entry;
 }
 
 #pragma mark - NSOutlineView Data Source
@@ -166,17 +228,33 @@
                    item:(id)item
 {
     NSTableCellView *cellView;
-    if ([item isKindOfClass:[NSDictionary class]])
+    if ([tableColumn.identifier isEqualToString:@"AnimeEntryColumn"])
     {
         cellView = [outlineView makeViewWithIdentifier:@"AnimeEntry" owner:nil];
-        cellView.textField.stringValue = item[@"title"];
+        if ([item isKindOfClass:[NSDictionary class]])
+        {
+            cellView.textField.stringValue = item[@"title"];
+        }
+        else if ([item isKindOfClass:[AnimeEntry class]])
+        {
+            cellView.textField.stringValue = ((AnimeEntry *)item).title;
+        }
     }
-    else
+    else if ([tableColumn.identifier isEqualToString:@"AnimeValueColumn"])
     {
-        cellView = [outlineView makeViewWithIdentifier:@"AnimeEntry" owner:nil];
-        cellView.textField.stringValue = item;
+        cellView = [outlineView makeViewWithIdentifier:@"AnimeValue" owner:nil];
+        if ([item isKindOfClass:[AnimeEntry class]])
+        {
+            cellView.textField.stringValue = ((AnimeEntry *)item).value;
+        }
+        else
+        {
+            cellView.textField.stringValue = @"";
+        }
     }
     return cellView;
 }
 
 @end
+
+

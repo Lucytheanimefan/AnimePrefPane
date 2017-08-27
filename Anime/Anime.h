@@ -10,7 +10,6 @@
 
 typedef enum {
     kIdentifier = 0,
-    kTitle,
     kAiringStatus,
     kEpisodes,
     kScore,
@@ -18,7 +17,14 @@ typedef enum {
     kWatchedEps
 } MALKey;
 
+
 @interface Anime : NSPreferencePane<NSTableViewDelegate, NSTableViewDataSource, NSOutlineViewDelegate, NSOutlineViewDataSource>
+
+//typedef struct AnimeEntry
+//{
+//    __unsafe_unretained NSString *title;
+//    __unsafe_unretained NSString *value;
+//} AnimeEntry;
 
 @property (nonatomic) NSArray *sources;
 @property (weak) IBOutlet NSTableView *sourceTable;
