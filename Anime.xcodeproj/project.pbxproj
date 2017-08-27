@@ -43,6 +43,7 @@
 		7C7B895A1F534579009D5C8B /* MALNotificationCenterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B89591F534579009D5C8B /* MALNotificationCenterDelegate.m */; };
 		7C7B895D1F5347E2009D5C8B /* MALConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7B895B1F5347E2009D5C8B /* MALConnection.h */; };
 		7C7B895E1F5347E2009D5C8B /* MALConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B895C1F5347E2009D5C8B /* MALConnection.m */; };
+		7CCA98ED1F534D1F0028FF92 /* MyAnimeListAgent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7CCA98EC1F534D1F0028FF92 /* MyAnimeListAgent.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,8 @@
 		7C7B89591F534579009D5C8B /* MALNotificationCenterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MALNotificationCenterDelegate.m; sourceTree = "<group>"; };
 		7C7B895B1F5347E2009D5C8B /* MALConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MALConnection.h; sourceTree = "<group>"; };
 		7C7B895C1F5347E2009D5C8B /* MALConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MALConnection.m; sourceTree = "<group>"; };
+		7C7B895F1F534C4B009D5C8B /* MyAnimeListAgent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyAnimeListAgent.entitlements; sourceTree = "<group>"; };
+		7CCA98EC1F534D1F0028FF92 /* MyAnimeListAgent.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyAnimeListAgent.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +181,7 @@
 		7C7B89271F533AE2009D5C8B /* MyAnimeListAgent */ = {
 			isa = PBXGroup;
 			children = (
+				7C7B895F1F534C4B009D5C8B /* MyAnimeListAgent.entitlements */,
 				7C7B894D1F533BBB009D5C8B /* Resources */,
 				7C7B89281F533AE2009D5C8B /* AppDelegate.h */,
 				7C7B89291F533AE2009D5C8B /* AppDelegate.m */,
@@ -199,6 +203,7 @@
 				7C7B892F1F533AE2009D5C8B /* ViewController.m */,
 				7C7B89361F533AE2009D5C8B /* Info.plist */,
 				7C7B892C1F533AE2009D5C8B /* main.m */,
+				7CCA98EC1F534D1F0028FF92 /* MyAnimeListAgent.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -309,6 +314,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 65ZN6CM2H7;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					7C7B893A1F533AE2009D5C8B = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -362,6 +372,7 @@
 				7C7B89321F533AE2009D5C8B /* Assets.xcassets in Resources */,
 				7C7B89491F533B14009D5C8B /* Main.xib in Resources */,
 				7C7B89351F533AE2009D5C8B /* Main.storyboard in Resources */,
+				7CCA98ED1F534D1F0028FF92 /* MyAnimeListAgent.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,6 +583,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyAnimeListAgent/MyAnimeListAgent.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 65ZN6CM2H7;
 				INFOPLIST_FILE = MyAnimeListAgent/Info.plist;
@@ -585,6 +597,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyAnimeListAgent/MyAnimeListAgent.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 65ZN6CM2H7;
 				INFOPLIST_FILE = MyAnimeListAgent/Info.plist;
@@ -657,6 +670,7 @@
 				7C7B89161F490873009D5C8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7C7B89421F533AE2009D5C8B /* Build configuration list for PBXNativeTarget "MyAnimeListAgent" */ = {
 			isa = XCConfigurationList;
@@ -665,6 +679,7 @@
 				7C7B89441F533AE2009D5C8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7C7B89451F533AE2009D5C8B /* Build configuration list for PBXNativeTarget "MyAnimeListAgentTests" */ = {
 			isa = XCConfigurationList;
@@ -673,6 +688,7 @@
 				7C7B89471F533AE2009D5C8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7C7B894F1F533D79009D5C8B /* Build configuration list for PBXAggregateTarget "BuildAll" */ = {
 			isa = XCConfigurationList;
@@ -681,6 +697,7 @@
 				7C7B89511F533D79009D5C8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

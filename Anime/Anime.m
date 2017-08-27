@@ -9,7 +9,7 @@
 #import "Anime.h"
 #import "AnimeRequester.h"
 #import "CustomCell.h"
-
+#import "MALConnection.h"
 
 #import <os/log.h>
 
@@ -93,10 +93,12 @@
         // off
         // turn off the agent
     }
-    else if (sender.state == 2)
+    else if (sender.state == 1)
     {
         // on
         // TODO: trigger the agent
+        [[MALConnection sharedInstance] startScanningForNotifications];
+        
     }
 }
 

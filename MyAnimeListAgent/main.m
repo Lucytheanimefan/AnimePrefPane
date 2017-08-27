@@ -12,7 +12,7 @@
 
 int main(int argc, const char * argv[]) {
     
-    MALDelegate *myDelegate = [[MALDelegate alloc] init];
+    MALDelegate *myDelegate = [MALDelegate sharedDelegate];
     
     NSXPCListener *listener =
     [NSXPCListener serviceListener];

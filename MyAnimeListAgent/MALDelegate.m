@@ -11,6 +11,8 @@
 #import "AnimeRequester.h"
 #import "MALNotificationCenterDelegate.h"
 
+#import <os/log.h>
+
 @implementation MALDelegate
 {
     NSDictionary *airingStatus;
@@ -40,9 +42,12 @@
 
 -(BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 {
+
+    os_log(OS_LOG_DEFAULT, "%@: Got a connection!", [self className]);
     NSXPCInterface *malInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MALProtocol)];
     newConnection.exportedInterface = malInterface;
     newConnection.exportedObject = self;
+    newConnection.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MALProtocol)];
     [newConnection resume];
     return YES;
 }

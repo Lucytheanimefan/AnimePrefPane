@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   MyAnimeListAgent.plist
+   Anime
+
+   Created by Lucy Zhang on 8/27/17.
+   Copyright (c) 2017 Lucy Zhang. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>com.lucy.MyAnimeListAgent</string>
+        <key>KeepAlive</key>
+        <true/>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>Program</key>
+        <string>/Users/lucyzhang/Library/Developer/Xcode/DerivedData/Anime-dqwxfezgykwdbicifsqvhxtlnmvv/Build/Products/Debug/MyAnimeListAgent.app/Contents/MacOS/MyAnimeListAgent</string>
+    </dict>
+</plist>

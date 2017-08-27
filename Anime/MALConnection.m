@@ -30,26 +30,26 @@
 
 - (NSXPCConnection *)connection
 {
-    if (!_connection)
-    {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         _connection = [self _xpcConnection];
-    }
+    });
     return _connection;
 }
 
 - (NSXPCConnection *) _xpcConnection
 {
     NSXPCInterface *remoteInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MALProtocol)];
-    NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithServiceName:@"com.lucy.anime"];
+    NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithServiceName:@"com.lucy.MyAnimeListAgent"];
     
     xpcConnection.remoteObjectInterface = remoteInterface;
     
     xpcConnection.interruptionHandler = ^{
-        NSLog(@"Connection Terminated");
+        NSLog(@"%@: Connection Terminated/Interrupted", [self class]);
     };
     
     xpcConnection.invalidationHandler = ^{
-        NSLog(@"Connection Invalidated");
+        NSLog(@"%@: Connection Invalidated", [self class]);
     };
     
     [xpcConnection resume];
@@ -67,7 +67,7 @@
 
 -(void)startScanningForNotifications
 {
-    [self.connection.remoteObjectProxy startScanningForNotifications];
+    [[self.connection remoteObjectProxy] startScanningForNotifications];
 }
 
 @end
