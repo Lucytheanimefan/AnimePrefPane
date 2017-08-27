@@ -15,6 +15,7 @@
 
 
 #define MAL @"MyAnimeList"
+#define CrunchyRoll @"Crunchyroll"
 
 @interface AnimeEntry : NSObject
 
@@ -32,6 +33,7 @@
 {
     NSArray <NSDictionary *> *malEntries;
     NSString *malUsername;
+    NSString *crUsername;
 }
 
 @synthesize sources = _sources;
@@ -50,16 +52,29 @@
     [_usernameField setAction:@selector(setUsername:)];
     
     malUsername = (NSString *)([[NSUserDefaults standardUserDefaults] objectForKey:@"malUsername"]);
+    crUsername = (NSString *)([[NSUserDefaults standardUserDefaults] objectForKey:@"crUsername"]);
+    
     _usernameField.stringValue = malUsername;
     
 }
 
 - (void)setUsername:(id)sender
 {
+    NSInteger row = [_sourceTable selectedRow];
+    NSString *source = self.sources[row];
+    
     if ([_usernameField.stringValue length] > 0)
     {
-        malUsername = _usernameField.stringValue;
-        [[NSUserDefaults standardUserDefaults] setObject:malUsername forKey:@"malUsername"];
+        if ([source isEqualToString:MAL])
+        {
+            malUsername = _usernameField.stringValue;
+            [[NSUserDefaults standardUserDefaults] setObject:malUsername forKey:@"malUsername"];
+        }
+        else if ([source isEqualToString:CrunchyRoll])
+        {
+            crUsername = _usernameField.stringValue;
+            [[NSUserDefaults standardUserDefaults] setObject:crUsername forKey:@"crUsername"];
+        }
     }
 }
 
@@ -104,6 +119,7 @@
     BOOL timeToRefresh = !malEntries || false;//true; // TODO
     if ([source isEqualToString:MAL])
     {
+        _usernameField.stringValue = malUsername;
         if (timeToRefresh)
         {
             [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
@@ -118,6 +134,10 @@
             NSLog(@"Not reloading MAL data");
             [self _reloadTable];
         }
+    }
+    else if ([source isEqualToString:CrunchyRoll])
+    {
+        _usernameField.stringValue = crUsername;
     }
 }
 
