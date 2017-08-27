@@ -10,4 +10,8 @@
 
 @interface AnimeRequester : NSObject
 
++ (id _Nonnull ) sharedInstance;
+
+- (void) makeGETRequest:(NSString *_Nonnull)endpoint withParameters:(nullable NSString *) params withCompletion:(void(^)(NSDictionary *))handler;
+
 @end

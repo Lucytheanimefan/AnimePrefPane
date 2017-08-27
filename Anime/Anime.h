@@ -8,13 +8,23 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
-@interface Anime : NSPreferencePane<NSTableViewDelegate, NSTableViewDataSource>
+typedef enum {
+    kIdentifier = 0,
+    kTitle,
+    kAiringStatus,
+    kEpisodes,
+    kScore,
+    kStatus,
+    kWatchedEps
+} MALKey;
+
+@interface Anime : NSPreferencePane<NSTableViewDelegate, NSTableViewDataSource, NSOutlineViewDelegate, NSOutlineViewDataSource>
 
 @property (nonatomic) NSArray *sources;
 @property (weak) IBOutlet NSTableView *sourceTable;
 @property (unsafe_unretained) IBOutlet NSTextView *textView;
-
 @property (weak) IBOutlet NSTextField *usernameField;
+@property (weak) IBOutlet NSOutlineView *outlineView;
 
 - (void)mainViewDidLoad;
 
