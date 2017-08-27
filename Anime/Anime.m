@@ -87,6 +87,20 @@
     return _sources;
 }
 
+- (IBAction)triggerNotification:(NSButton *)sender {
+    if (sender.state == 0)
+    {
+        // off
+        // turn off the agent
+    }
+    else if (sender.state == 2)
+    {
+        // on
+        // TODO: trigger the agent
+    }
+}
+
+
 #pragma mark - NSTableViewDataSoruce
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -102,11 +116,12 @@
         CustomCell *view = [tableView makeViewWithIdentifier:@"CustomCell" owner:nil];
         
         // TODO: pick images
-         view.iconImage.image = [[NSImage alloc]initWithContentsOfFile:@"transparentapple.png"];
+        NSURL *imageURL = [[NSBundle mainBundle] URLForImageResource:self.sources[row]];
+        view.iconImage.image = [[NSImage alloc] initWithContentsOfURL:imageURL];
         
         [view.sourceTitle setStringValue:self.sources[row]];
-        [view.subtitle setStringValue:@"Test subtitle"];
-
+        //[view.subtitle setStringValue:@"Test subtitle"];
+        
         return view;
     }
     return nil;

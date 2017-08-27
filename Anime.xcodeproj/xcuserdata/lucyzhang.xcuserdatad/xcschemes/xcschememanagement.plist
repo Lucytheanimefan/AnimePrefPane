@@ -9,10 +9,35 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>BuildAll.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>MyAnimeListAgent.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>7C7B89041F490873009D5C8B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C7B89251F533AE2009D5C8B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C7B893A1F533AE2009D5C8B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C7B894E1F533D79009D5C8B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
