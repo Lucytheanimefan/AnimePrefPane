@@ -56,11 +56,16 @@
 {
     NSArray <NSDictionary *> *currentEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
     NSString *malUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"malUsername"];
+    if (!malUsername)
+    {
+        malUsername = @"Silent_Muse";
+    }
     
     // Get the new entries
     __block NSArray <NSDictionary *> *newEntries;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
+        os_log(OS_LOG_DEFAULT, "%@: Anime requestor response: %@", [self class], json);
         newEntries = (NSArray <NSDictionary *> *)json;
         dispatch_semaphore_signal(sema);
     }];
@@ -73,6 +78,9 @@
         NSString *title = newEntry[@"title"];
         NSPredicate *filter = [NSPredicate predicateWithFormat:@"title contains[c] %@ ", title];
         NSDictionary *matchingEntry = [currentEntries filteredArrayUsingPredicate:filter][0];
+        
+        os_log(OS_LOG_DEFAULT, "%@: New entry: %@, matching entry: %@", [self class], newEntry.description, matchingEntry.description);
+
         if (matchingEntry)
         {
             NSString *notificationInfoText = @"";

@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 
+#import <os/log.h>
+
+#import "MALDelegate.h"
+
 @interface AppDelegate ()
 
 @end
@@ -16,6 +20,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    os_log(OS_LOG_DEFAULT, "%@: App finished launching", [self class]);
+    [[MALDelegate sharedDelegate] startScanningForNotifications];
 }
 
 

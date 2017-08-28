@@ -10,6 +10,8 @@
 
 #import "MALProtocol.h"
 
+#import <os/log.h>
+
 @interface MALConnection()
 
 @property (nonatomic, readwrite) NSXPCConnection *connection;
@@ -30,10 +32,10 @@
 
 - (NSXPCConnection *)connection
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if (!_connection)
+    {
         _connection = [self _xpcConnection];
-    });
+    }
     return _connection;
 }
 
@@ -49,7 +51,7 @@
     };
     
     xpcConnection.invalidationHandler = ^{
-        NSLog(@"%@: Connection Invalidated", [self class]);
+        os_log(OS_LOG_DEFAULT, "%@: Connection Invalidated", [self class]);
     };
     
     [xpcConnection resume];

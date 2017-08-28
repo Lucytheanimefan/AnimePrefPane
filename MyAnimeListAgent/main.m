@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <os/log.h>
 
 #import "MALDelegate.h"
 
@@ -17,9 +18,10 @@ int main(int argc, const char * argv[]) {
     NSXPCListener *listener =
     [NSXPCListener serviceListener];
     
-    listener.delegate = myDelegate;
-    [listener resume];
+    //listener.delegate = myDelegate;
+    //[listener resume];
  
-    
+    os_log(OS_LOG_DEFAULT, "Ready to return app");
     return NSApplicationMain(argc, argv);
+
 }

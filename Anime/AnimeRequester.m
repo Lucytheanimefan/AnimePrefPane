@@ -8,8 +8,9 @@
 
 #import "AnimeRequester.h"
 
+#import <os/log.h>
 
-const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com/";
+const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com";
 
 @implementation AnimeRequester
 
@@ -34,6 +35,10 @@ const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com/";
       ^(NSData * _Nullable data,
         NSURLResponse * _Nullable response,
         NSError * _Nullable error) {
+          if (error)
+          {
+              os_log(OS_LOG_ERROR, "%@: Error making anime request: %@", [self class], error.description);
+          }
           NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
                                           options:NSJSONReadingAllowFragments
                                             error:&error];
