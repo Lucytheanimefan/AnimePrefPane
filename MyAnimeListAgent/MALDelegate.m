@@ -55,6 +55,7 @@
 
 - (void)startScanningForNotifications
 {
+    os_log(OS_LOG_DEFAULT, "%@: -----------Start scanning for notifications---------", [self class]);
     NSArray <NSDictionary *> *currentEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
     NSString *malUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"malUsername"];
     if (!malUsername)
@@ -80,7 +81,7 @@
         NSPredicate *filter = [NSPredicate predicateWithFormat:@"title contains[c] %@ ", title];
         NSDictionary *matchingEntry = [currentEntries filteredArrayUsingPredicate:filter][0];
         
-        os_log(OS_LOG_DEFAULT, "%@: New entry: %@, matching entry: %@", [self class], newEntry.description, matchingEntry.description);
+        os_log(OS_LOG_DEFAULT, "%@: New entry: %@, matching entry: %@", [self class], title, matchingEntry[@"title"]);
 
         if (matchingEntry)
         {
