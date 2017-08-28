@@ -8,6 +8,9 @@
 
 #import "MALNotificationCenterDelegate.h"
 
+
+#import <AppKit/AppKit.h>
+
 @implementation MALNotificationCenterDelegate
 
 + (id) sharedDelegate
@@ -23,6 +26,12 @@
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
 {
     return YES;
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
+{
+    NSURL *actionURL = [NSURL URLWithString: notification.userInfo[@"action_url"]];
+    [[NSWorkspace sharedWorkspace] openURL:actionURL];
 }
 
 @end

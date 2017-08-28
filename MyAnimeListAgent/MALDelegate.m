@@ -11,6 +11,7 @@
 #import "AnimeRequester.h"
 #import "MALNotificationCenterDelegate.h"
 
+#import <AppKit/AppKit.h>
 #import <os/log.h>
 
 @implementation MALDelegate
@@ -98,17 +99,20 @@
             {
                 NSString *notificationTitle = [NSString stringWithFormat:@"Status for %@ has changed", title];
                 NSUserNotification *notif = [[NSUserNotification alloc]init];
+                NSImage *iconImage = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:newEntry[@"image_url"]]];
                 notif.title = notificationTitle;
                 notif.informativeText = notificationInfoText;
+                notif.contentImage = iconImage;
+                notif.otherButtonTitle = @"Dismiss";
+                notif.actionButtonTitle = @"View";
+                notif.userInfo = @{@"action_url":newEntry[@"url"]};
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notif];
             }
-
         }
-        else
-        {
-            // The new anime has been recently added to MAL, update the user defaults
-            [[NSUserDefaults standardUserDefaults] setObject:newEntries forKey:@"malEntries"];
-        }
+        // Update the user defaults
+#ifndef DEBUG
+        [[NSUserDefaults standardUserDefaults] setObject:newEntries forKey:@"malEntries"];
+#endif
     }
 }
 

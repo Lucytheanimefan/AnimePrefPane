@@ -23,6 +23,7 @@
 
 /* Begin PBXBuildFile section */
 		7C56A4681F5434C8000AF25D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C56A4671F5434C8000AF25D /* MainMenu.xib */; };
+		7C56A46B1F543CDD000AF25D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C56A46A1F543CDD000AF25D /* AppKit.framework */; };
 		7C7B89091F490873009D5C8B /* Anime.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7B89081F490873009D5C8B /* Anime.h */; };
 		7C7B890B1F490873009D5C8B /* Anime.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B890A1F490873009D5C8B /* Anime.m */; };
 		7C7B890D1F490873009D5C8B /* Anime.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B890C1F490873009D5C8B /* Anime.tiff */; };
@@ -72,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		7C56A4671F5434C8000AF25D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		7C56A46A1F543CDD000AF25D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		7C7B89051F490873009D5C8B /* Anime.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Anime.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7B89081F490873009D5C8B /* Anime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Anime.h; sourceTree = "<group>"; };
 		7C7B890A1F490873009D5C8B /* Anime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Anime.m; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C56A46B1F543CDD000AF25D /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +134,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C56A4691F543CDD000AF25D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7C56A46A1F543CDD000AF25D /* AppKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7C7B88FB1F490873009D5C8B = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +150,7 @@
 				7C7B89271F533AE2009D5C8B /* MyAnimeListAgent */,
 				7C7B893E1F533AE2009D5C8B /* MyAnimeListAgentTests */,
 				7C7B89061F490873009D5C8B /* Products */,
+				7C56A4691F543CDD000AF25D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
