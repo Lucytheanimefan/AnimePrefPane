@@ -143,11 +143,14 @@
         }
         else
         {
+            // TODO: fix, this is not working as expected
+            // No matching entry, a new anime was added
+            
             NSUserNotification *notif = [[NSUserNotification alloc]init];
             notif.title = @"New anime added";
             notif.informativeText = [NSString stringWithFormat:@"%@ added to list", newEntry[@"title"]];
             
-            [self _deliverAnimeNotification:notif fromEntry:newEntry];
+            //[self _deliverAnimeNotification:notif fromEntry:newEntry];
 
         }
     }

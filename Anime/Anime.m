@@ -31,10 +31,18 @@
 
 @end
 
+@interface Anime()
+
+@property (nonatomic, assign, readwrite) NSDictionary *CRUserInfo;
+@property (nonatomic, assign, readwrite) NSString *currentSource;
+@property (nonatomic) NSArray *sources;
+@property (nonatomic) NSArray <NSDictionary *> *malEntries;
+
+@end
+
 
 @implementation Anime
 {
-    NSArray <NSDictionary *> *malEntries;
     NSString *malUsername;
     NSString *crUsername;
 }
@@ -49,7 +57,6 @@
     _outlineView.dataSource = self;
     _outlineView.delegate = self;
     
-    malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
     
     [_usernameField setTarget:self];
     [_usernameField setAction:@selector(setUsername:)];
@@ -67,8 +74,6 @@
     
     // Select the first source (MAL)
     [_sourceTable selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-
-    
 }
 
 - (void)setUsername:(id)sender
@@ -100,35 +105,80 @@
     return _sources;
 }
 
+- (NSString *)currentSource
+{
+    NSInteger row = [_sourceTable selectedRow];
+    if (!row || row < 0)
+    {
+        row = 0;
+    }
+    //NSLog(@"Row: %ld", (long)row);
+    _currentSource = self.sources[row];
+    return _currentSource;
+}
+
+-(NSArray<NSDictionary *> *)malEntries
+{
+    if (!_malEntries)
+    {
+        _malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
+    }
+    return _malEntries;
+}
+
+- (NSDictionary *)CRUserInfo
+{
+    NSDictionary *info = [[NSUserDefaults standardUserDefaults]objectForKey:@"crUserInfo"];
+    NSLog(@"Info: %@", info);
+    NSLog(@"CRUserInfo: %@", _CRUserInfo);
+    if (!_CRUserInfo && info)
+    {
+        _CRUserInfo = info;
+    }
+    return _CRUserInfo;
+}
+
 - (IBAction)triggerNotification:(NSButton *)sender {
-    
+
     // Temporary, switch to XPC once you get that working
     NSDictionary *userInfo = @{@"shouldScan":@(sender.state == NSOnState)};
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:MALAgentCenter object:nil userInfo:userInfo deliverImmediately:YES];
 }
 
 - (IBAction)refresh:(NSButton *)sender {
-    NSInteger row = [_sourceTable selectedRow];
-    NSString *source = self.sources[row];
-    
-    if ([source isEqualToString:MAL])
+    if ([self.currentSource isEqualToString:MAL])
     {
         [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
-            malEntries = (NSArray *)json;
-            [[NSUserDefaults standardUserDefaults] setObject:malEntries forKey:@"malEntries"];
+            
+            //_malEntries = (NSArray *)json;
+            [[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:@"malEntries"];
             
             [self _reloadTable];
-            NSString *lastRefresh = [[NSDate date] description];
-            [[NSUserDefaults standardUserDefaults]setObject:lastRefresh forKey:@"malLastRefresh"];
-            _lastRefreshDateLabel.stringValue = [[NSDate date] description];
+            [self _updateLastRefreshForKey:@"malLastRefresh"];
         }];
     }
-    else if ([source isEqualToString:CrunchyRoll])
+    else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
-        
+        [[AnimeRequester sharedInstance] makeGETRequest:@"crunchyroll" withParameters:[NSString stringWithFormat:@"username=%@",crUsername] withCompletion:^(NSDictionary * json) {
+
+            [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"crUserInfo"];
+            [self _reloadTable];
+            [self _updateLastRefreshForKey:@"crLastRefresh"];
+        }];
+
+    }
+    else
+    {
+        NSLog(@"Nothing to refresh");
     }
 }
 
+- (void) _updateLastRefreshForKey:(NSString *)key
+{
+    NSString *lastRefresh = [[NSDate date] description];
+    [[NSUserDefaults standardUserDefaults]setObject:lastRefresh forKey:key];
+    _lastRefreshDateLabel.stringValue = [[NSDate date] description];
+}
 
 #pragma mark - NSTableViewDataSource
 
@@ -156,10 +206,8 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-    NSInteger row = [_sourceTable selectedRow];
-    NSString *source = self.sources[row];
-    BOOL timeToRefresh = !malEntries || false;//true; // TODO
-    if ([source isEqualToString:MAL])
+    //BOOL timeToRefresh = !malEntries || false;//true; // TODO
+    if ([self.currentSource isEqualToString:MAL])
     {
         _usernameField.stringValue = malUsername;
         //        if (timeToRefresh)
@@ -173,11 +221,11 @@
         //        }
         //        else
         //        {
-        NSLog(@"Not reloading MAL data");
+
         [self _reloadTable];
         //}
     }
-    else if ([source isEqualToString:CrunchyRoll])
+    else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
         _usernameField.stringValue = crUsername;
         [self _reloadTable];
@@ -195,94 +243,108 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return ([item isKindOfClass:[NSDictionary class]]);
+    if ([self.currentSource isEqualToString:MAL])
+    {
+        return ([item isKindOfClass:[NSDictionary class]]);
+    }
+    else if ([self.currentSource isEqualToString:CrunchyRoll])
+    {
+        return NO;
+    }
+    return NO;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
     AnimeEntry *entry = [[AnimeEntry alloc] init];
-    
-    if ([item isKindOfClass:[NSDictionary class]])
+    if ([self.currentSource isEqualToString:MAL])
     {
-        switch (index) {
-            case kIdentifier:
-                entry.value = [NSString stringWithFormat:@"%@", item[@"anime_id"]];
-                entry.title = @"Anime Id";
-                break;
-            case kAiringStatus:
-            {
-                NSLog(@"Airing status type: %@", [item[@"airing_status"] className]);
-                NSInteger airingStatus = [item[@"airing_status"] integerValue];
-                switch (airingStatus) {
-                    case 1:
-                        entry.value = @"Airing";
-                        break;
-                    case 2:
-                        entry.value = @"Aired";
-                        break;
-                    case 3:
-                        entry.value = @"Not aired";
-                        break;
-                    default:
-                        break;
+        if ([item isKindOfClass:[NSDictionary class]])
+        {
+            switch (index) {
+                case kIdentifier:
+                    entry.value = [NSString stringWithFormat:@"%@", item[@"anime_id"]];
+                    entry.title = @"Anime Id";
+                    break;
+                case kAiringStatus:
+                {
+                    NSLog(@"Airing status type: %@", [item[@"airing_status"] className]);
+                    NSInteger airingStatus = [item[@"airing_status"] integerValue];
+                    switch (airingStatus) {
+                        case 1:
+                            entry.value = @"Airing";
+                            break;
+                        case 2:
+                            entry.value = @"Aired";
+                            break;
+                        case 3:
+                            entry.value = @"Not aired";
+                            break;
+                        default:
+                            break;
+                    }
+                    entry.title = @"Airing Status";
+                    break;
                 }
-
-                entry.title = @"Airing Status";
-                break;
-            }
-            case kEpisodes:
-
-                entry.value = [NSString stringWithFormat:@"%@", item[@"total_episodes"]];
-                entry.title = @"Total Episodes";
-                break;
-            case kScore:
-
-                entry.value = [NSString stringWithFormat:@"%@",item[@"user_score"]];
-                entry.title = @"Score";
-                break;
-            case kStatus:
-            {
-                NSInteger userStatus = [item[@"user_status"] integerValue];
-                switch (userStatus) {
-                    case 1:
-                        entry.value = @"Watching";
-                        break;
-                    case 2:
-                        entry.value = @"Completed";
-                        break;
-                    case 3:
-                        entry.value = @"On hold";
-                        break;
-                    case 4:
-                        entry.value = @"Dropped";
-                        break;
-                    case 6:
-                        entry.value = @"Plan to watch";
-                        break;
-                    default:
-                        break;
+                case kEpisodes:
+                    entry.value = [NSString stringWithFormat:@"%@", item[@"total_episodes"]];
+                    entry.title = @"Total Episodes";
+                    break;
+                case kScore:
+                    entry.value = [NSString stringWithFormat:@"%@",item[@"user_score"]];
+                    entry.title = @"Score";
+                    break;
+                case kStatus:
+                {
+                    NSInteger userStatus = [item[@"user_status"] integerValue];
+                    switch (userStatus) {
+                        case 1:
+                            entry.value = @"Watching";
+                            break;
+                        case 2:
+                            entry.value = @"Completed";
+                            break;
+                        case 3:
+                            entry.value = @"On hold";
+                            break;
+                        case 4:
+                            entry.value = @"Dropped";
+                            break;
+                        case 6:
+                            entry.value = @"Plan to watch";
+                            break;
+                        default:
+                            break;
+                    }
+                    entry.title = @"User Status";
+                    break;
                 }
-
-                entry.title = @"User Status";
-                break;
+                case kWatchedEps:
+                    entry.value = [NSString stringWithFormat:@"%@", item[@"watched_episodes"]];
+                    entry.title = @"Watched episodes";
+                    break;
+                default:
+                    NSLog(@"Item for none: %@, index: %ld", item, (long)index);
+                    entry.value = @"None";
+                    entry.title = @"None";
+                    break;
             }
-            case kWatchedEps:
-                entry.value = [NSString stringWithFormat:@"%@", item[@"watched_episodes"]];
-                entry.title = @"Watched episodes";
-                break;
-            default:
-                NSLog(@"Item for none: %@, index: %ld", item, (long)index);
-                entry.value = @"None";
-                entry.title = @"None";
-                break;
         }
+        else
+        {
+            return self.malEntries[index];
+        }
+        
+        return entry;
     }
-    else
+    else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
-        return malEntries[index];
+        // should just be the dictionary key - value pair
+        entry.title = self.CRUserInfo.allKeys[index];
+        entry.value = self.CRUserInfo.allValues[index];
+        return entry;
     }
-    
-    return entry;
+    return nil;
 }
 
 #pragma mark - NSOutlineView Data Source
@@ -290,14 +352,23 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     // MAL entry
-    if ([item isKindOfClass:[NSDictionary class]])
+    if ([self.currentSource isEqualToString:MAL])
     {
-        return 6;
+        if ([item isKindOfClass:[NSDictionary class]])
+        {
+            return 6;
+        }
+        else
+        {
+            return self.malEntries.count;
+        }
     }
-    else
+    else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
-        return malEntries.count;
+        return self.CRUserInfo.allKeys.count;
     }
+    
+    return 0;
 }
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView
@@ -305,28 +376,45 @@
                    item:(id)item
 {
     NSTableCellView *cellView;
-    if ([tableColumn.identifier isEqualToString:@"AnimeEntryColumn"])
+    if ([self.currentSource isEqualToString:MAL])
     {
-        cellView = [outlineView makeViewWithIdentifier:@"AnimeEntry" owner:nil];
-        if ([item isKindOfClass:[NSDictionary class]])
+        if ([tableColumn.identifier isEqualToString:@"AnimeEntryColumn"])
         {
-            cellView.textField.stringValue = item[@"title"];
+            cellView = [outlineView makeViewWithIdentifier:@"AnimeEntry" owner:nil];
+            if ([item isKindOfClass:[NSDictionary class]])
+            {
+                cellView.textField.stringValue = item[@"title"];
+            }
+            else if ([item isKindOfClass:[AnimeEntry class]])
+            {
+                cellView.textField.stringValue = ((AnimeEntry *)item).title;
+            }
         }
-        else if ([item isKindOfClass:[AnimeEntry class]])
+        else if ([tableColumn.identifier isEqualToString:@"AnimeValueColumn"])
         {
-            cellView.textField.stringValue = ((AnimeEntry *)item).title;
+            cellView = [outlineView makeViewWithIdentifier:@"AnimeValue" owner:nil];
+            if ([item isKindOfClass:[AnimeEntry class]])
+            {
+                cellView.textField.stringValue = ((AnimeEntry *)item).value;
+            }
+            else
+            {
+                cellView.textField.stringValue = @"";
+            }
         }
     }
-    else if ([tableColumn.identifier isEqualToString:@"AnimeValueColumn"])
+    else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
-        cellView = [outlineView makeViewWithIdentifier:@"AnimeValue" owner:nil];
-        if ([item isKindOfClass:[AnimeEntry class]])
+        if ([tableColumn.identifier isEqualToString:@"AnimeEntryColumn"])
         {
-            cellView.textField.stringValue = ((AnimeEntry *)item).value;
+            cellView = [outlineView makeViewWithIdentifier:@"AnimeEntry" owner:nil];
+            cellView.textField.stringValue = ((AnimeEntry *)item).title;
         }
-        else
+        else if ([tableColumn.identifier isEqualToString:@"AnimeValueColumn"])
         {
-            cellView.textField.stringValue = @"";
+            cellView = [outlineView makeViewWithIdentifier:@"AnimeValue" owner:nil];
+            cellView.textField.stringValue = ((AnimeEntry *)item).value;
+
         }
     }
     return cellView;

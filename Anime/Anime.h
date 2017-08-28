@@ -22,8 +22,6 @@ typedef enum {
 @interface Anime : NSPreferencePane<NSTableViewDelegate, NSTableViewDataSource, NSOutlineViewDelegate, NSOutlineViewDataSource>
 
 
-
-@property (nonatomic) NSArray *sources;
 @property (weak) IBOutlet NSTableView *sourceTable;
 @property (weak) IBOutlet NSTextField *usernameField;
 @property (weak) IBOutlet NSOutlineView *outlineView;
