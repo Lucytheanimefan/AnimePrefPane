@@ -19,9 +19,19 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>MyAnimeListCLI.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>7C56A4731F545F39000AF25D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7C7B89041F490873009D5C8B</key>
 		<dict>
 			<key>primary</key>

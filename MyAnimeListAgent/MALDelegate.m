@@ -33,17 +33,19 @@
 -(id)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         [NSUserNotificationCenter defaultUserNotificationCenter].delegate = [MALNotificationCenterDelegate sharedDelegate];
         airingStatus = @{@1:@"Airing", @2:@"Aired", @3:@"Not aired"};
         userStatus = @{@1:@"Watching", @2:@"Completed", @3:@"On hold", @4:@"Dropped", @5:@"Plan to watch"};
+        _shouldScan = NO;
+        [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(shouldScan:) name:@"MyAnimeListAgent" object:nil];
     }
     return self;
 }
 
 -(BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 {
-
     os_log(OS_LOG_DEFAULT, "%@: Got a connection!", [self className]);
     NSXPCInterface *malInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MALProtocol)];
     newConnection.exportedInterface = malInterface;
@@ -53,8 +55,24 @@
     return YES;
 }
 
+         
+-(void)shouldScan:(NSNotification *)myNotification
+{
+    _shouldScan = (BOOL)myNotification.userInfo[@"shouldScan"];
+}
+         
+-(void)setShouldScan:(BOOL)shouldScan
+{
+    _shouldScan = shouldScan;
+}
+
 - (void)startScanningForNotifications
 {
+    if (!_shouldScan)
+    {
+        os_log(OS_LOG_DEFAULT, "%@: Don't proceed to scan", [self class]);
+        return;
+    }
     os_log(OS_LOG_DEFAULT, "%@: -----------Start scanning for notifications---------", [self class]);
     NSArray <NSDictionary *> *currentEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
     NSString *malUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"malUsername"];
@@ -86,6 +104,7 @@
         if (matchingEntry)
         {
             NSString *notificationInfoText = @"";
+            
             // Compare watched episode count/user watch status
             if (newEntry[@"airing_status"] != matchingEntry[@"airing_status"])
             {
@@ -107,6 +126,7 @@
                 notif.otherButtonTitle = @"Dismiss";
                 notif.actionButtonTitle = @"View";
                 notif.userInfo = @{@"action_url":newEntry[@"url"]};
+                os_log(OS_LOG_DEFAULT, "%@: Prepare to display notification: %@", [self class], notif.description);
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notif];
             }
         }

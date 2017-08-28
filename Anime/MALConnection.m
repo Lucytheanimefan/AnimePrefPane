@@ -42,8 +42,12 @@
 - (NSXPCConnection *) _xpcConnection
 {
     NSXPCInterface *remoteInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MALProtocol)];
-    NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithServiceName:@"com.lucy.MyAnimeListAgent"];
+    //NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
     
+    //NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithServiceName:bundleId];
+    
+    NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:MALAgentID options:0];
+    os_log(OS_LOG_DEFAULT, "%@: Service name: %@", [self class], xpcConnection.serviceName);
     xpcConnection.remoteObjectInterface = remoteInterface;
     
     xpcConnection.interruptionHandler = ^{
@@ -56,11 +60,11 @@
     
     [xpcConnection resume];
     
-    [self.connection.remoteObjectProxy setInvalidationHandler:^{
+    [xpcConnection.remoteObjectProxy setInvalidationHandler:^{
         NSLog(@"Invalidated connection to MALDelegate");
     }];
     
-    [self.connection.remoteObjectProxy setInterruptionHandler:^{
+    [xpcConnection.remoteObjectProxy setInterruptionHandler:^{
         NSLog(@"Interrupted connection to MALDelegate");
     }];
     
@@ -70,6 +74,11 @@
 -(void)startScanningForNotifications
 {
     [[self.connection remoteObjectProxy] startScanningForNotifications];
+}
+
+- (void) setShouldScan:(BOOL)shouldScan
+{
+    [[self.connection remoteObjectProxy] setShouldScan:shouldScan];
 }
 
 @end

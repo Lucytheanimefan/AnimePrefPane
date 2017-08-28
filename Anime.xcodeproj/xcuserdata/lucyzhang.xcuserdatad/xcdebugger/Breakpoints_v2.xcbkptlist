@@ -20,92 +20,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyAnimeListAgent/MALDelegate.m"
-            timestampString = "525615597.571714"
+            timestampString = "525624409.732424"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "-startScanningForNotifications"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Anime/Anime.m"
-            timestampString = "525552494.297476"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "-triggerNotification:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/MALDelegate.m"
-            timestampString = "525614377.316932"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "-listener:shouldAcceptNewConnection:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MALDelegate listener:shouldAcceptNewConnection:]"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/MALDelegate.m"
-                  timestampString = "525616521.106917"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "94">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MALDelegate listener:shouldAcceptNewConnection:]"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/MALDelegate.m"
-                  timestampString = "525616521.108779"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "136">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MALDelegate listener:shouldAcceptNewConnection:]"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/MALDelegate.m"
-                  timestampString = "525616521.110596"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "307">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -115,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Anime/MALConnection.m"
-            timestampString = "525572977.49301"
+            timestampString = "525618137.564407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "-startScanningForNotifications"
             landmarkType = "7">
          </BreakpointContent>
@@ -131,7 +52,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Anime/MALConnection.m"
-            timestampString = "525572977.49301"
+            timestampString = "525618137.564407"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "-_xpcConnection"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Anime/MALConnection.m"
+            timestampString = "525618137.564407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -147,39 +84,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Anime/MALConnection.m"
-            timestampString = "525572977.49301"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "-_xpcConnection"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Anime/MALConnection.m"
-            timestampString = "525572977.49301"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "-_xpcConnection"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Anime/MALConnection.m"
-            timestampString = "525572977.49301"
+            timestampString = "525618137.564407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
@@ -194,107 +99,59 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/MALDelegate.m"
-            timestampString = "525615597.571714"
+            filePath = "Anime/MALConnection.m"
+            timestampString = "525618137.564407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "-startScanningForNotifications"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/MALDelegate.m"
-            timestampString = "525615597.571714"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "-startScanningForNotifications"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/MALDelegate.m"
-            timestampString = "525615597.571714"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "-startScanningForNotifications"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Anime/AnimeRequester.m"
-            timestampString = "525613157.463258"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "-makeGETRequest:withParameters:withCompletion:"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-_xpcConnection"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__63-[AnimeRequester makeGETRequest:withParameters:withCompletion:]_block_invoke"
-                  moduleName = "MyAnimeListAgent"
+                  symbolName = "__31-[MALConnection _xpcConnection]_block_invoke.68"
+                  moduleName = "Anime"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/Anime/AnimeRequester.m"
-                  timestampString = "525616521.136843"
+                  urlString = "file:///Users/lucyzhang/Github/Anime/Anime/MALConnection.m"
+                  timestampString = "525624414.267166"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "141">
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "37">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__63-[AnimeRequester makeGETRequest:withParameters:withCompletion:]_block_invoke"
-                  moduleName = "MyAnimeListAgent"
+                  symbolName = "__31-[MALConnection _xpcConnection]_block_invoke.68"
+                  moduleName = "Anime"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/Anime/AnimeRequester.m"
-                  timestampString = "525616521.138937"
+                  urlString = "file:///Users/lucyzhang/Github/Anime/Anime/MALConnection.m"
+                  timestampString = "525624414.27104"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "183">
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "83">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__63-[AnimeRequester makeGETRequest:withParameters:withCompletion:]_block_invoke"
-                  moduleName = "MyAnimeListAgent"
+                  symbolName = "__31-[MALConnection _xpcConnection]_block_invoke.68"
+                  moduleName = "Anime"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/Anime/AnimeRequester.m"
-                  timestampString = "525616521.140837"
+                  urlString = "file:///Users/lucyzhang/Github/Anime/Anime/MALConnection.m"
+                  timestampString = "525624414.273232"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "406">
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "223">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -305,173 +162,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/AppDelegate.m"
-            timestampString = "525615692.962838"
+            filePath = "MyAnimeListAgent/main.m"
+            timestampString = "525622918.179094"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "-applicationDidFinishLaunching:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/AppDelegate.m"
-            timestampString = "525616207.284574"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "-applicationDidFinishLaunching:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__45-[AppDelegate applicationDidFinishLaunching:]_block_invoke"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/AppDelegate.m"
-                  timestampString = "525616521.151151"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "65">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__45-[AppDelegate applicationDidFinishLaunching:]_block_invoke"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/AppDelegate.m"
-                  timestampString = "525616521.15303"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "107">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__45-[AppDelegate applicationDidFinishLaunching:]_block_invoke"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/AppDelegate.m"
-                  timestampString = "525616521.15482"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "272">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/AppDelegate.m"
-            timestampString = "525616024.19828"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "-applicationDidFinishLaunching:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/AppDelegate.m"
-            timestampString = "525616090.262922"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "-applicationDidFinishLaunching:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/AppDelegate.m"
-            timestampString = "525616215.136271"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "-applicationDidFinishLaunching:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[AppDelegate applicationDidFinishLaunching:]"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/AppDelegate.m"
-                  timestampString = "525616521.168952"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "445">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__45-[AppDelegate applicationDidFinishLaunching:]_block_invoke"
-                  moduleName = "MyAnimeListAgent"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lucyzhang/Github/Anime/MyAnimeListAgent/AppDelegate.m"
-                  timestampString = "525616521.171421"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "65">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyAnimeListAgent/AppDelegate.m"
-            timestampString = "525616335.88635"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "-applicationDidFinishLaunching:"
-            landmarkType = "7">
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "main()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

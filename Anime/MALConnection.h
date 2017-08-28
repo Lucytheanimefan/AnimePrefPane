@@ -14,4 +14,6 @@
 
 -(void)startScanningForNotifications;
 
+- (void) setShouldScan:(BOOL)shouldScan;
+
 @end

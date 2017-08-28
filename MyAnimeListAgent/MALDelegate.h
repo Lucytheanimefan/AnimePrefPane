@@ -13,6 +13,8 @@
 
 @interface MALDelegate : NSObject <NSXPCListenerDelegate, MALProtocol>
 
+@property (nonatomic, assign) BOOL shouldScan;
+
 + (id) sharedDelegate;
 
 @end

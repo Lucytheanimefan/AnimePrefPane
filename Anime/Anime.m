@@ -11,11 +11,13 @@
 #import "CustomCell.h"
 #import "MALConnection.h"
 
+#import <Foundation/Foundation.h>
 #import <os/log.h>
 
 
 #define MAL @"MyAnimeList"
 #define CrunchyRoll @"Crunchyroll"
+
 
 @interface AnimeEntry : NSObject
 
@@ -88,22 +90,14 @@
 }
 
 - (IBAction)triggerNotification:(NSButton *)sender {
-    if (sender.state == 0)
-    {
-        // off
-        // turn off the agent
-    }
-    else if (sender.state == 1)
-    {
-        // on
-        // TODO: trigger the agent
-        [[MALConnection sharedInstance] startScanningForNotifications];
-        
-    }
+    
+    // Temporary, switch to XPC once you get that working
+    NSDictionary *userInfo = @{@"shouldScan": @(sender.state == 1)};
+    [[NSDistributedNotificationCenter defaultCenter]postNotificationName:@"MyAnimeListAgent" object:nil userInfo:userInfo deliverImmediately:YES];
 }
 
 
-#pragma mark - NSTableViewDataSoruce
+#pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {

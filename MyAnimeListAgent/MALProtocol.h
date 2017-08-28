@@ -8,8 +8,13 @@
 
 // NSXPC Protocol to implement
 
+#define MALAgentID @"com.lucy.MyAnimeListAgent"
+
+
 @protocol MALProtocol <NSObject>
 
 - (void) startScanningForNotifications;
+
+- (void) setShouldScan:(BOOL)shouldScan;
 
 @end

@@ -13,14 +13,16 @@
 
 int main(int argc, const char * argv[]) {
     
-    MALDelegate *myDelegate = [MALDelegate sharedDelegate];
+    //MALDelegate *myDelegate = [MALDelegate sharedDelegate];
     
-    NSXPCListener *listener =
-    [NSXPCListener serviceListener];
+    //NSXPCListener *listener =
+    //[NSXPCListener serviceListener];
     
-    //listener.delegate = myDelegate;
-    //[listener resume];
+    //NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+    
  
+    //[[NSRunLoop currentRunLoop] run];
+    
     os_log(OS_LOG_DEFAULT, "Ready to return app");
     return NSApplicationMain(argc, argv);
 
