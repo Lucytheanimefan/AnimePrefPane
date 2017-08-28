@@ -8,6 +8,7 @@
 
 #import "Anime.h"
 #import "AnimeRequester.h"
+#import "Constants.h"
 #import "CustomCell.h"
 #import "MALConnection.h"
 
@@ -58,6 +59,16 @@
     
     _usernameField.stringValue = malUsername;
     
+    NSString *malRefreshDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"malLastRefresh"] ;
+    if (malRefreshDate)
+    {
+        _lastRefreshDateLabel.stringValue = malRefreshDate;
+    }
+    
+    // Select the first source (MAL)
+    [_sourceTable selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+
+    
 }
 
 - (void)setUsername:(id)sender
@@ -93,7 +104,29 @@
     
     // Temporary, switch to XPC once you get that working
     NSDictionary *userInfo = @{@"shouldScan":@(sender.state == NSOnState)};
-    [[NSDistributedNotificationCenter defaultCenter]postNotificationName:@"MyAnimeListAgent" object:nil userInfo:userInfo deliverImmediately:YES];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:MALAgentCenter object:nil userInfo:userInfo deliverImmediately:YES];
+}
+
+- (IBAction)refresh:(NSButton *)sender {
+    NSInteger row = [_sourceTable selectedRow];
+    NSString *source = self.sources[row];
+    
+    if ([source isEqualToString:MAL])
+    {
+        [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
+            malEntries = (NSArray *)json;
+            [[NSUserDefaults standardUserDefaults] setObject:malEntries forKey:@"malEntries"];
+            
+            [self _reloadTable];
+            NSString *lastRefresh = [[NSDate date] description];
+            [[NSUserDefaults standardUserDefaults]setObject:lastRefresh forKey:@"malLastRefresh"];
+            _lastRefreshDateLabel.stringValue = [[NSDate date] description];
+        }];
+    }
+    else if ([source isEqualToString:CrunchyRoll])
+    {
+        
+    }
 }
 
 
@@ -111,12 +144,10 @@
     {
         CustomCell *view = [tableView makeViewWithIdentifier:@"CustomCell" owner:nil];
         
-        // TODO: pick images
         NSURL *imageURL = [[NSBundle mainBundle] URLForImageResource:self.sources[row]];
         view.iconImage.image = [[NSImage alloc] initWithContentsOfURL:imageURL];
         
         [view.sourceTitle setStringValue:self.sources[row]];
-        //[view.subtitle setStringValue:@"Test subtitle"];
         
         return view;
     }
@@ -131,24 +162,25 @@
     if ([source isEqualToString:MAL])
     {
         _usernameField.stringValue = malUsername;
-        if (timeToRefresh)
-        {
-            [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
-                malEntries = (NSArray *)json;
-                [[NSUserDefaults standardUserDefaults] setObject:malEntries forKey:@"malEntries"];
-                
-                [self _reloadTable];
-            }];
-        }
-        else
-        {
-            NSLog(@"Not reloading MAL data");
-            [self _reloadTable];
-        }
+        //        if (timeToRefresh)
+        //        {
+        //            [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
+        //                malEntries = (NSArray *)json;
+        //                [[NSUserDefaults standardUserDefaults] setObject:malEntries forKey:@"malEntries"];
+        //
+        //                [self _reloadTable];
+        //            }];
+        //        }
+        //        else
+        //        {
+        NSLog(@"Not reloading MAL data");
+        [self _reloadTable];
+        //}
     }
     else if ([source isEqualToString:CrunchyRoll])
     {
         _usernameField.stringValue = crUsername;
+        [self _reloadTable];
     }
 }
 

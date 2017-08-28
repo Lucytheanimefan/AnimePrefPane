@@ -20,18 +20,20 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     os_log(OS_LOG_DEFAULT, "%@: App finished launching", [self class]);
-//    MALDelegate *myDelegate = [MALDelegate sharedDelegate];
-//    // Kick off listener
-//    NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:MALAgentID];
-//    
-//    //NSXPCListener *listener = [NSXPCListener serviceListener];
-//    
-//    listener.delegate = myDelegate;
-//    [listener resume];
-//    
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-        [self _startPeriodicTask];
+    //    MALDelegate *myDelegate = [MALDelegate sharedDelegate];
+    //    // Kick off listener
+    //    NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:MALAgentID];
+    //
+    //    //NSXPCListener *listener = [NSXPCListener serviceListener];
+    //
+    //    listener.delegate = myDelegate;
+    //    [listener resume];
+    //
+    //    static dispatch_once_t onceToken;
+    //    dispatch_once(&onceToken, ^{
+    
+    [self _startPeriodicTask];
+    
     //});
     
     //[[NSRunLoop currentRunLoop] run];

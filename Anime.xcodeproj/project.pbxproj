@@ -31,6 +31,7 @@
 		7C56A4801F5463DE000AF25D /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C56A47E1F5463DE000AF25D /* Constants.m */; };
 		7C56A4811F5463DE000AF25D /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C56A47E1F5463DE000AF25D /* Constants.m */; };
 		7C56A4821F5463DE000AF25D /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C56A47E1F5463DE000AF25D /* Constants.m */; };
+		7C56A4841F547D3C000AF25D /* com.lucy.MyAnimeListAgent.plist in Copy launchd plist */ = {isa = PBXBuildFile; fileRef = 7CCA98EC1F534D1F0028FF92 /* com.lucy.MyAnimeListAgent.plist */; };
 		7C7B89091F490873009D5C8B /* Anime.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7B89081F490873009D5C8B /* Anime.h */; };
 		7C7B890B1F490873009D5C8B /* Anime.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B890A1F490873009D5C8B /* Anime.m */; };
 		7C7B890D1F490873009D5C8B /* Anime.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B890C1F490873009D5C8B /* Anime.tiff */; };
@@ -42,7 +43,6 @@
 		7C7B89211F50818D009D5C8B /* AnimeRequester.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B891F1F50818D009D5C8B /* AnimeRequester.m */; };
 		7C7B892A1F533AE2009D5C8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B89291F533AE2009D5C8B /* AppDelegate.m */; };
 		7C7B892D1F533AE2009D5C8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B892C1F533AE2009D5C8B /* main.m */; };
-		7C7B89301F533AE2009D5C8B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B892F1F533AE2009D5C8B /* ViewController.m */; };
 		7C7B89321F533AE2009D5C8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B89311F533AE2009D5C8B /* Assets.xcassets */; };
 		7C7B89351F533AE2009D5C8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B89331F533AE2009D5C8B /* Main.storyboard */; };
 		7C7B89401F533AE2009D5C8B /* MyAnimeListAgentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B893F1F533AE2009D5C8B /* MyAnimeListAgentTests.m */; };
@@ -88,6 +88,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		7C56A4831F547D20000AF25D /* Copy launchd plist */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = Library/LaunchAgents;
+			dstSubfolderSpec = 7;
+			files = (
+				7C56A4841F547D3C000AF25D /* com.lucy.MyAnimeListAgent.plist in Copy launchd plist */,
+			);
+			name = "Copy launchd plist";
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -114,8 +125,6 @@
 		7C7B89281F533AE2009D5C8B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7C7B89291F533AE2009D5C8B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7C7B892C1F533AE2009D5C8B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7C7B892E1F533AE2009D5C8B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		7C7B892F1F533AE2009D5C8B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		7C7B89311F533AE2009D5C8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C7B89341F533AE2009D5C8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7C7B89361F533AE2009D5C8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,6 +193,25 @@
 			path = MyAnimeListCLI;
 			sourceTree = "<group>";
 		};
+		7C56A4851F548DBB000AF25D /* XPC */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B894A1F533BAB009D5C8B /* MALDelegate.h */,
+				7C7B894B1F533BAB009D5C8B /* MALDelegate.m */,
+				7C7B89561F533F70009D5C8B /* MALProtocol.h */,
+			);
+			name = XPC;
+			sourceTree = "<group>";
+		};
+		7C56A4861F548F60000AF25D /* Agent */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B895B1F5347E2009D5C8B /* MALConnection.h */,
+				7C7B895C1F5347E2009D5C8B /* MALConnection.m */,
+			);
+			name = Agent;
+			sourceTree = "<group>";
+		};
 		7C7B88FB1F490873009D5C8B = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +239,7 @@
 		7C7B89071F490873009D5C8B /* Anime */ = {
 			isa = PBXGroup;
 			children = (
+				7C56A4861F548F60000AF25D /* Agent */,
 				7C7B89081F490873009D5C8B /* Anime.h */,
 				7C7B890A1F490873009D5C8B /* Anime.m */,
 				7C7B891B1F4A737C009D5C8B /* transparentapple.png */,
@@ -221,8 +250,6 @@
 				7C7B89181F4A6E23009D5C8B /* CustomCell.m */,
 				7C7B891E1F50818D009D5C8B /* AnimeRequester.h */,
 				7C7B891F1F50818D009D5C8B /* AnimeRequester.m */,
-				7C7B895B1F5347E2009D5C8B /* MALConnection.h */,
-				7C7B895C1F5347E2009D5C8B /* MALConnection.m */,
 				7C56A46C1F544D53000AF25D /* Anime.entitlements */,
 			);
 			path = Anime;
@@ -241,13 +268,11 @@
 			isa = PBXGroup;
 			children = (
 				7C7B895F1F534C4B009D5C8B /* MyAnimeListAgent.entitlements */,
+				7C56A4851F548DBB000AF25D /* XPC */,
 				7C7B894D1F533BBB009D5C8B /* Resources */,
 				7C7B89281F533AE2009D5C8B /* AppDelegate.h */,
 				7C7B89291F533AE2009D5C8B /* AppDelegate.m */,
 				7C7B89311F533AE2009D5C8B /* Assets.xcassets */,
-				7C7B894A1F533BAB009D5C8B /* MALDelegate.h */,
-				7C7B894B1F533BAB009D5C8B /* MALDelegate.m */,
-				7C7B89561F533F70009D5C8B /* MALProtocol.h */,
 				7C7B89581F534579009D5C8B /* MALNotificationCenterDelegate.h */,
 				7C7B89591F534579009D5C8B /* MALNotificationCenterDelegate.m */,
 				7C7B892B1F533AE2009D5C8B /* Supporting Files */,
@@ -258,8 +283,6 @@
 		7C7B892B1F533AE2009D5C8B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7C7B892E1F533AE2009D5C8B /* ViewController.h */,
-				7C7B892F1F533AE2009D5C8B /* ViewController.m */,
 				7C7B89361F533AE2009D5C8B /* Info.plist */,
 				7C7B892C1F533AE2009D5C8B /* main.m */,
 				7CCA98EC1F534D1F0028FF92 /* com.lucy.MyAnimeListAgent.plist */,
@@ -345,6 +368,7 @@
 				7C7B89221F533AE2009D5C8B /* Sources */,
 				7C7B89231F533AE2009D5C8B /* Frameworks */,
 				7C7B89241F533AE2009D5C8B /* Resources */,
+				7C56A4831F547D20000AF25D /* Copy launchd plist */,
 			);
 			buildRules = (
 			);
@@ -498,7 +522,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C7B89301F533AE2009D5C8B /* ViewController.m in Sources */,
 				7C7B895A1F534579009D5C8B /* MALNotificationCenterDelegate.m in Sources */,
 				7C7B894C1F533BAB009D5C8B /* MALDelegate.m in Sources */,
 				7C7B89571F53410A009D5C8B /* AnimeRequester.m in Sources */,

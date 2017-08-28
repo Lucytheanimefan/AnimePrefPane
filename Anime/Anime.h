@@ -8,6 +8,7 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
+
 typedef enum {
     kIdentifier = 0,
     kAiringStatus,
@@ -26,6 +27,7 @@ typedef enum {
 @property (weak) IBOutlet NSTableView *sourceTable;
 @property (weak) IBOutlet NSTextField *usernameField;
 @property (weak) IBOutlet NSOutlineView *outlineView;
+@property (weak) IBOutlet NSTextField *lastRefreshDateLabel;
 
 
 - (void)mainViewDidLoad;

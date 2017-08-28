@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+
+#define MALAgentCenter @"MyAnimeListAgent"
+
 @interface Constants : NSObject
 
 @end
