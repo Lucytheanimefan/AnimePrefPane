@@ -58,7 +58,8 @@
          
 -(void)shouldScan:(NSNotification *)myNotification
 {
-    _shouldScan = (BOOL)myNotification.userInfo[@"shouldScan"];
+    _shouldScan = [myNotification.userInfo[@"shouldScan"] boolValue];
+    os_log(OS_LOG_DEFAULT, "%@: Should scan: %hhd", [self class], _shouldScan);
 }
          
 -(void)setShouldScan:(BOOL)shouldScan

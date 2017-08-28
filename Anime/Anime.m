@@ -92,7 +92,7 @@
 - (IBAction)triggerNotification:(NSButton *)sender {
     
     // Temporary, switch to XPC once you get that working
-    NSDictionary *userInfo = @{@"shouldScan": @(sender.state == 1)};
+    NSDictionary *userInfo = @{@"shouldScan":@(sender.state == NSOnState)};
     [[NSDistributedNotificationCenter defaultCenter]postNotificationName:@"MyAnimeListAgent" object:nil userInfo:userInfo deliverImmediately:YES];
 }
 
