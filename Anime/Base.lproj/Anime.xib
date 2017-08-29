@@ -14,6 +14,7 @@
                 <outlet property="notificationCheckBox" destination="f5b-Xy-d2x" id="pa4-N2-4hM"/>
                 <outlet property="outlineView" destination="szD-ft-u64" id="gaN-hc-lGK"/>
                 <outlet property="passwordField" destination="d52-hf-08e" id="s1V-Y4-0ej"/>
+                <outlet property="passwordLabel" destination="9yP-ZY-oAu" id="Eun-ng-yVH"/>
                 <outlet property="sourceTable" destination="1i2-mL-1YP" id="6Ms-Qr-UCe"/>
                 <outlet property="usernameField" destination="eTy-Ft-bXb" id="scr-ZP-1bN"/>
             </connections>
@@ -236,7 +237,7 @@
                                         </subviews>
                                     </clipView>
                                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="xg9-cg-BkU">
-                                        <rect key="frame" x="1" y="235" width="414" height="16"/>
+                                        <rect key="frame" x="1" y="7" width="0.0" height="16"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="P2o-6i-1Mm">
@@ -297,15 +298,6 @@
                                         <action selector="triggerNotification:" target="-2" id="OC4-Jx-gbs"/>
                                     </connections>
                                 </button>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9yP-ZY-oAu">
-                                    <rect key="frame" x="193" y="290" width="44" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Pass:" id="22g-ZJ-viv">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
                                 <secureTextField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d52-hf-08e">
                                     <rect key="frame" x="243" y="289" width="96" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -318,6 +310,15 @@
                                         </allowedInputSourceLocales>
                                     </secureTextFieldCell>
                                 </secureTextField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9yP-ZY-oAu">
+                                    <rect key="frame" x="204" y="290" width="37" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Pass:" id="22g-ZJ-viv">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
                             </subviews>
                         </view>
                     </box>

@@ -25,6 +25,7 @@
 @property (assign, readwrite) NSString *title;
 @property (assign, readwrite) NSString *value;
 
+
 @end
 
 @implementation AnimeEntry
@@ -32,6 +33,9 @@
 @end
 
 @interface Anime()
+
+@property (weak) IBOutlet NSTextField *passwordLabel;
+
 
 @property (nonatomic, assign, readwrite) NSDictionary *CRUserInfo;
 @property (nonatomic, assign, readwrite) NSString *currentSource;
@@ -253,20 +257,31 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
+    NSTableColumn *col = _outlineView.tableColumns[0];
     if ([self.currentSource isEqualToString:MAL])
     {
+        col.headerCell.stringValue = @"MyAnimeList";
+        [self _hidePasswordField];
         [_notificationCheckBox setHidden:NO];
         _usernameField.stringValue = malUsername;
         [self _reloadTable];
     }
     else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
+        col.headerCell.stringValue = @"CrunchyRoll profile";
+        [self _hidePasswordField];
         [_notificationCheckBox setHidden:YES];
         _usernameField.stringValue = crUsername;
         [self _reloadTable];
     }
     else if ([self.currentSource isEqualToString:Funimation])
     {
+        // Change column titles
+        col.headerCell.stringValue = @"Funimation Queue";
+        _passwordField.hidden = NO;
+        [_passwordField setEnabled:YES];
+        _passwordLabel.hidden = NO;
+        
         [_notificationCheckBox setHidden:YES];
         if (self.funiUsername)
         {
@@ -274,6 +289,13 @@
         }
         [self _reloadTable];
     }
+}
+
+- (void) _hidePasswordField
+{
+    _passwordLabel.hidden = YES;
+    _passwordField.hidden = YES;
+    [_passwordField setEnabled:NO];
 }
 
 - (void) _reloadTable
