@@ -69,8 +69,8 @@ const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com";
           NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
                                           options:NSJSONReadingAllowFragments
                                             error:&error];
-          NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-          NSLog(@"Data received: %@", myString);
+          //NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+          //NSLog(@"Data received: %@", myString);
           handler(json);
       }] resume];
 }

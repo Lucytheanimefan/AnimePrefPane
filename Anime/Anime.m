@@ -38,6 +38,9 @@
 @property (nonatomic) NSArray *sources;
 @property (nonatomic) NSArray <NSDictionary *> *malEntries;
 @property (weak) IBOutlet NSButton *notificationCheckBox;
+@property (nonatomic) NSDictionary *funiQueue;
+
+@property (nonatomic) NSString *funiUsername;
 
 @end
 
@@ -46,7 +49,6 @@
 {
     NSString *malUsername;
     NSString *crUsername;
-    NSString *funiUsername;
 }
 
 @synthesize sources = _sources;
@@ -97,12 +99,7 @@
         }
         else if ([source isEqualToString:Funimation] && _passwordField.stringValue)
         {
-            funiUsername = _usernameField.stringValue;
-            //_passwordField.stringValue
-            [[AnimeRequester sharedInstance]makeRequest:@"funiLogin" withParameters:nil postParams:@{@"username":funiUsername, @"password":_passwordField.stringValue} isPost:YES withCompletion:^(NSDictionary *json) {
-                os_log(OS_LOG_DEFAULT, "%@: Result from funi login: %@", [self class],json.description);
-            }];
-            
+            [[NSUserDefaults standardUserDefaults]setObject:_usernameField.stringValue forKey:@"funiUsername"];
         }
     }
 }
@@ -111,7 +108,7 @@
 {
     if (!_sources)
     {
-        _sources = @[@"MyAnimeList",@"Crunchyroll", @"Funimation"];
+        _sources = @[@"MyAnimeList", @"Crunchyroll", @"Funimation"];
     }
     return _sources;
 }
@@ -128,13 +125,29 @@
     return _currentSource;
 }
 
+- (NSString *)funiUsername
+{
+    _funiUsername = [[NSUserDefaults standardUserDefaults]objectForKey:@"funiUsername"];
+    return _funiUsername;
+}
+
 -(NSArray<NSDictionary *> *)malEntries
 {
-    if (!_malEntries)
-    {
+    //if (!_malEntries)
+    //{
         _malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
-    }
+    //}
     return _malEntries;
+}
+
+- (NSDictionary *)funiQueue
+{
+    //if (!_funiQueue)
+    //{
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"funiQueue"];
+    _funiQueue = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    //}
+    return _funiQueue;
 }
 
 - (NSDictionary *)CRUserInfo
@@ -176,7 +189,30 @@
             [self _reloadTable];
             [self _updateLastRefreshForKey:@"crLastRefresh"];
         }];
-
+    }
+    else if ([self.currentSource isEqualToString:Funimation])
+    {
+        if (!_passwordField.stringValue)
+        {
+            return;
+        }
+        [[AnimeRequester sharedInstance]makeRequest:@"funiLogin" withParameters:nil postParams:@{@"username":self.funiUsername, @"password":_passwordField.stringValue} isPost:YES withCompletion:^(NSDictionary *json) {
+            
+            os_log(OS_LOG_DEFAULT, "%@: Result from funi login: %@", [self class],json.description);
+            
+            // Cache the token?
+            NSString *funiAuthToken = json[@"token"];
+            [[NSUserDefaults standardUserDefaults]setObject:funiAuthToken forKey:@"funiAuthToken"];
+            
+            // Get Funimation queue
+            [[AnimeRequester sharedInstance]makeRequest:@"funiQueue" withParameters:nil postParams:@{@"funiAuthToken":funiAuthToken} isPost:YES withCompletion:^(NSDictionary * json) {
+                os_log(OS_LOG_DEFAULT, "%@: Funimation results: %@", [self class], json);
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:json];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"funiQueue"];
+                
+                [self _reloadTable];
+            }];
+        }];
     }
     else
     {
@@ -232,9 +268,9 @@
     else if ([self.currentSource isEqualToString:Funimation])
     {
         [_notificationCheckBox setHidden:YES];
-        if (funiUsername)
+        if (self.funiUsername)
         {
-            _usernameField.stringValue = funiUsername;
+            _usernameField.stringValue = self.funiUsername;
         }
         [self _reloadTable];
     }
@@ -258,6 +294,10 @@
     else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
         return NO;
+    }
+    else if ([self.currentSource isEqualToString:Funimation])
+    {
+        return ([item isKindOfClass:[NSDictionary class]]);
     }
     return NO;
 }
@@ -352,6 +392,42 @@
         entry.value = self.CRUserInfo.allValues[index];
         return entry;
     }
+    else if ([self.currentSource isEqualToString:Funimation])
+    {
+        if ([item isKindOfClass:[NSDictionary class]])
+        {
+            switch (index) {
+                case 0:
+                    entry.title = @"id";
+                    entry.value = item[@"id"];
+                    break;
+                case 1:
+                    entry.title = @"episode_count";
+                    entry.value = item[@"show"][@"episode_count"];
+                    break;
+                case 2:
+                    entry.title = @"image";
+                    // the image URL as a string
+                    entry.value = item[@"show"][@"image"];
+                    break;
+                case 3:
+                    entry.title = @"synposis";
+
+                    NSLog(@"--------------------------");
+                    NSLog(@"%@", item[@"show"][@"synopsis"][@"medium_synopsis"]);
+                    entry.value = item[@"show"][@"synopsis"][@"medium_synopsis"];
+                    break;
+                default:
+                    break;
+            }
+            os_log(OS_LOG_DEFAULT, "%@: The AnimeEntry for funimation: %@, %@", [self class], entry.title, entry.value);
+        }
+        else
+        {
+            return ((NSArray *)self.funiQueue[@"items"])[index];
+        }
+        return entry;
+    }
     return nil;
 }
 
@@ -374,6 +450,17 @@
     else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
         return self.CRUserInfo.allKeys.count;
+    }
+    else if ([self.currentSource isEqualToString:Funimation])
+    {
+        if ([item isKindOfClass:[NSDictionary class]])
+        {
+            return 4;
+        }
+        else
+        {
+            return ((NSArray *)self.funiQueue[@"items"]).count;
+        }
     }
     
     return 0;
@@ -403,7 +490,14 @@
             cellView = [outlineView makeViewWithIdentifier:@"AnimeValue" owner:nil];
             if ([item isKindOfClass:[AnimeEntry class]])
             {
-                cellView.textField.stringValue = ((AnimeEntry *)item).value;
+                if ([((AnimeEntry *)item).title isEqualToString:@"image"])
+                {
+                    cellView.imageView.image = [[NSImage alloc]initByReferencingURL:[NSURL URLWithString:((AnimeEntry *)item).value]];
+                }
+                else
+                {
+                    cellView.textField.stringValue = ((AnimeEntry *)item).value;
+                }
             }
             else
             {
@@ -423,6 +517,33 @@
             cellView = [outlineView makeViewWithIdentifier:@"AnimeValue" owner:nil];
             cellView.textField.stringValue = ((AnimeEntry *)item).value;
 
+        }
+    }
+    else if ([self.currentSource isEqualToString:Funimation])
+    {
+        if ([tableColumn.identifier isEqualToString:@"AnimeEntryColumn"])
+        {
+            cellView = [outlineView makeViewWithIdentifier:@"AnimeEntry" owner:nil];
+            if ([item isKindOfClass:[NSDictionary class]])
+            {
+                cellView.textField.stringValue = item[@"show"][@"title"];
+            }
+            else if ([item isKindOfClass:[AnimeEntry class]])
+            {
+                cellView.textField.stringValue = ((AnimeEntry *)item).title;
+            }
+        }
+        else if ([tableColumn.identifier isEqualToString:@"AnimeValueColumn"])
+        {
+            cellView = [outlineView makeViewWithIdentifier:@"AnimeValue" owner:nil];
+            if ([item isKindOfClass:[AnimeEntry class]])
+            {
+                cellView.textField.stringValue = ((AnimeEntry *)item).value;
+            }
+            else
+            {
+                cellView.textField.stringValue = @"";
+            }
         }
     }
     return cellView;
