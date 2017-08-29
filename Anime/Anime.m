@@ -18,7 +18,7 @@
 
 #define MAL @"MyAnimeList"
 #define CrunchyRoll @"Crunchyroll"
-
+#define Funimation @"Funimation"
 
 @interface AnimeEntry : NSObject
 
@@ -37,6 +37,7 @@
 @property (nonatomic, assign, readwrite) NSString *currentSource;
 @property (nonatomic) NSArray *sources;
 @property (nonatomic) NSArray <NSDictionary *> *malEntries;
+@property (weak) IBOutlet NSButton *notificationCheckBox;
 
 @end
 
@@ -45,6 +46,7 @@
 {
     NSString *malUsername;
     NSString *crUsername;
+    NSString *funiUsername;
 }
 
 @synthesize sources = _sources;
@@ -93,6 +95,15 @@
             crUsername = _usernameField.stringValue;
             [[NSUserDefaults standardUserDefaults] setObject:crUsername forKey:@"crUsername"];
         }
+        else if ([source isEqualToString:Funimation] && _passwordField.stringValue)
+        {
+            funiUsername = _usernameField.stringValue;
+            //_passwordField.stringValue
+            [[AnimeRequester sharedInstance]makeRequest:@"funiLogin" withParameters:[NSString stringWithFormat:@"username=%@&password=%@",funiUsername, _passwordField.stringValue] isPost:YES withCompletion:^(NSDictionary *json) {
+                os_log(OS_LOG_DEFAULT, "%@: Result from funi login: %@", [self class],json.description);
+            }];
+            
+        }
     }
 }
 
@@ -130,7 +141,7 @@
 {
     NSDictionary *info = [[NSUserDefaults standardUserDefaults]objectForKey:@"crUserInfo"];
     NSLog(@"Info: %@", info);
-    NSLog(@"CRUserInfo: %@", _CRUserInfo);
+    NSLog(@"CRUserInfo: %@", _CRUserInfo.description);
     if (!_CRUserInfo && info)
     {
         _CRUserInfo = info;
@@ -148,7 +159,7 @@
 - (IBAction)refresh:(NSButton *)sender {
     if ([self.currentSource isEqualToString:MAL])
     {
-        [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
+        [[AnimeRequester sharedInstance] makeRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] isPost:NO withCompletion:^(NSDictionary * json) {
             
             //_malEntries = (NSArray *)json;
             [[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:@"malEntries"];
@@ -159,7 +170,7 @@
     }
     else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
-        [[AnimeRequester sharedInstance] makeGETRequest:@"crunchyroll" withParameters:[NSString stringWithFormat:@"username=%@",crUsername] withCompletion:^(NSDictionary * json) {
+        [[AnimeRequester sharedInstance] makeRequest:@"crunchyroll" withParameters:[NSString stringWithFormat:@"username=%@",crUsername] isPost:NO withCompletion:^(NSDictionary * json) {
 
             [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"crUserInfo"];
             [self _reloadTable];
@@ -206,28 +217,25 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-    //BOOL timeToRefresh = !malEntries || false;//true; // TODO
     if ([self.currentSource isEqualToString:MAL])
     {
+        [_notificationCheckBox setHidden:NO];
         _usernameField.stringValue = malUsername;
-        //        if (timeToRefresh)
-        //        {
-        //            [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
-        //                malEntries = (NSArray *)json;
-        //                [[NSUserDefaults standardUserDefaults] setObject:malEntries forKey:@"malEntries"];
-        //
-        //                [self _reloadTable];
-        //            }];
-        //        }
-        //        else
-        //        {
-
         [self _reloadTable];
-        //}
     }
     else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
+        [_notificationCheckBox setHidden:YES];
         _usernameField.stringValue = crUsername;
+        [self _reloadTable];
+    }
+    else if ([self.currentSource isEqualToString:Funimation])
+    {
+        [_notificationCheckBox setHidden:YES];
+        if (funiUsername)
+        {
+            _usernameField.stringValue = funiUsername;
+        }
         [self _reloadTable];
     }
 }

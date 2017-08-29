@@ -27,6 +27,9 @@ typedef enum {
 @property (weak) IBOutlet NSOutlineView *outlineView;
 @property (weak) IBOutlet NSTextField *lastRefreshDateLabel;
 
+@property (weak) IBOutlet NSSecureTextField *passwordField;
+
+
 
 - (void)mainViewDidLoad;
 

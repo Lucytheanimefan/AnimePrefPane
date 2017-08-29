@@ -91,7 +91,7 @@
     // Get the new entries
     __block NSArray <NSDictionary *> *newEntries;
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-    [[AnimeRequester sharedInstance] makeGETRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] withCompletion:^(NSDictionary * json) {
+    [[AnimeRequester sharedInstance] makeRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] isPost:NO withCompletion:^(NSDictionary * json) {
         os_log(OS_LOG_DEFAULT, "%@: Anime requestor response: %@", [self class], json);
         newEntries = (NSArray <NSDictionary *> *)json;
         dispatch_semaphore_signal(sema);

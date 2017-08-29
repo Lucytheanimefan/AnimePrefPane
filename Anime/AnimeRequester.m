@@ -24,11 +24,32 @@ const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com";
     return shared;
 }
 
-- (void) makeGETRequest:(NSString *)endpoint withParameters:(nullable NSString *) params withCompletion:(void(^)(NSDictionary *))handler
+// params is already formatted for the url
+- (void) makeRequest:(NSString *)endpoint withParameters:(nullable NSString *) params isPost:(BOOL)post withCompletion:(void(^)(NSDictionary *))handler
 {
-    NSString *targetUrl = [NSString stringWithFormat:@"%@/%@?%@", baseUrl, endpoint, params];
+    NSString *targetUrl;
+    
+    if (post)
+    {
+        targetUrl = [NSString stringWithFormat:@"%@/%@", baseUrl, endpoint];
+    }
+    else
+    {
+        targetUrl = [NSString stringWithFormat:@"%@/%@?%@", baseUrl, endpoint, params];
+    }
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setHTTPMethod:@"GET"];
+    
+    if (post)
+    {
+        [request setHTTPMethod:@"POST"];
+        //[request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        NSData *postData = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:postData];
+    }
+    else{
+        [request setHTTPMethod:@"GET"];
+    }
+    
     [request setURL:[NSURL URLWithString:targetUrl]];
     
     [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
@@ -47,4 +68,5 @@ const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com";
           handler(json);
       }] resume];
 }
+
 @end
