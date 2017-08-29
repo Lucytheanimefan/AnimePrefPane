@@ -99,7 +99,7 @@
         {
             funiUsername = _usernameField.stringValue;
             //_passwordField.stringValue
-            [[AnimeRequester sharedInstance]makeRequest:@"funiLogin" withParameters:[NSString stringWithFormat:@"username=%@&password=%@",funiUsername, _passwordField.stringValue] isPost:YES withCompletion:^(NSDictionary *json) {
+            [[AnimeRequester sharedInstance]makeRequest:@"funiLogin" withParameters:nil postParams:@{@"username":funiUsername, @"password":_passwordField.stringValue} isPost:YES withCompletion:^(NSDictionary *json) {
                 os_log(OS_LOG_DEFAULT, "%@: Result from funi login: %@", [self class],json.description);
             }];
             
@@ -159,7 +159,7 @@
 - (IBAction)refresh:(NSButton *)sender {
     if ([self.currentSource isEqualToString:MAL])
     {
-        [[AnimeRequester sharedInstance] makeRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] isPost:NO withCompletion:^(NSDictionary * json) {
+        [[AnimeRequester sharedInstance] makeRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] postParams:nil isPost:NO withCompletion:^(NSDictionary * json) {
             
             //_malEntries = (NSArray *)json;
             [[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:@"malEntries"];
@@ -170,7 +170,7 @@
     }
     else if ([self.currentSource isEqualToString:CrunchyRoll])
     {
-        [[AnimeRequester sharedInstance] makeRequest:@"crunchyroll" withParameters:[NSString stringWithFormat:@"username=%@",crUsername] isPost:NO withCompletion:^(NSDictionary * json) {
+        [[AnimeRequester sharedInstance] makeRequest:@"crunchyroll" withParameters:[NSString stringWithFormat:@"username=%@",crUsername] postParams:nil isPost:NO withCompletion:^(NSDictionary * json) {
 
             [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"crUserInfo"];
             [self _reloadTable];

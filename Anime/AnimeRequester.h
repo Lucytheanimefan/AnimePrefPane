@@ -12,6 +12,6 @@
 
 + (id _Nonnull ) sharedInstance;
 
-- (void) makeRequest:(NSString *)endpoint withParameters:(nullable NSString *) params isPost:(BOOL)post withCompletion:(void(^)(NSDictionary *))handler;
+- (void) makeRequest:(NSString *)endpoint withParameters:(nullable NSString *) params postParams:(nullable NSDictionary *)postParams isPost:(BOOL)post withCompletion:(void(^)(NSDictionary *))handler;
 
 @end

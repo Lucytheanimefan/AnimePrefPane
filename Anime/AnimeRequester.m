@@ -25,7 +25,7 @@ const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com";
 }
 
 // params is already formatted for the url
-- (void) makeRequest:(NSString *)endpoint withParameters:(nullable NSString *) params isPost:(BOOL)post withCompletion:(void(^)(NSDictionary *))handler
+- (void) makeRequest:(NSString *)endpoint withParameters:(nullable NSString *) params postParams:(nullable NSDictionary *)postParams isPost:(BOOL)post withCompletion:(void(^)(NSDictionary *))handler
 {
     NSString *targetUrl;
     
@@ -38,19 +38,25 @@ const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com";
         targetUrl = [NSString stringWithFormat:@"%@/%@?%@", baseUrl, endpoint, params];
     }
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:targetUrl]];
     
     if (post)
     {
+        NSError *error;
         [request setHTTPMethod:@"POST"];
-        //[request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        NSData *postData = [params dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:postParams
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:&error];
+        //NSData *postData = [params dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];//NSUTF8StringEncoding];
+        [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
+        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:postData];
     }
-    else{
+    else
+    {
         [request setHTTPMethod:@"GET"];
     }
     
-    [request setURL:[NSURL URLWithString:targetUrl]];
     
     [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
       ^(NSData * _Nullable data,
@@ -58,7 +64,7 @@ const NSString *baseUrl = @"https://lucys-anime-server.herokuapp.com";
         NSError * _Nullable error) {
           if (error)
           {
-              os_log(OS_LOG_ERROR, "%@: Error making anime request: %@", [self class], error.description);
+              os_log_error(OS_LOG_DEFAULT, "%@: Error making anime request: %@", [self class], error.description);
           }
           NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
                                           options:NSJSONReadingAllowFragments
