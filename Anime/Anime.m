@@ -16,10 +16,6 @@
 #import <os/log.h>
 
 
-#define MAL @"MyAnimeList"
-#define CrunchyRoll @"Crunchyroll"
-#define Funimation @"Funimation"
-
 @interface AnimeEntry : NSObject
 
 @property (assign, readwrite) NSString *title;
@@ -45,6 +41,7 @@
 @property (nonatomic) NSDictionary *funiQueue;
 
 @property (nonatomic) NSString *funiUsername;
+@property (nonatomic) NSString *funiPassword;
 
 @end
 
@@ -103,7 +100,10 @@
         }
         else if ([source isEqualToString:Funimation] && _passwordField.stringValue)
         {
-            [[NSUserDefaults standardUserDefaults]setObject:_usernameField.stringValue forKey:@"funiUsername"];
+            [[NSUserDefaults standardUserDefaults]setObject:_usernameField.stringValue forKey:funiUsernameKey];
+            
+            // Really shouldn't be doing this...
+            [[NSUserDefaults standardUserDefaults]setObject:_passwordField.stringValue forKey:funiPasswordKey];
         }
     }
 }
@@ -131,15 +131,21 @@
 
 - (NSString *)funiUsername
 {
-    _funiUsername = [[NSUserDefaults standardUserDefaults]objectForKey:@"funiUsername"];
+    _funiUsername = [[NSUserDefaults standardUserDefaults]objectForKey:funiUsernameKey];
     return _funiUsername;
+}
+
+- (NSString *)funiPassword
+{
+    _funiPassword = [[NSUserDefaults standardUserDefaults]objectForKey:funiPasswordKey];
+    return _funiPassword;
 }
 
 -(NSArray<NSDictionary *> *)malEntries
 {
     //if (!_malEntries)
     //{
-        _malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:@"malEntries"];
+        _malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:malEntries];
     //}
     return _malEntries;
 }
@@ -148,7 +154,7 @@
 {
     //if (!_funiQueue)
     //{
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"funiQueue"];
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:funiQueue];
     _funiQueue = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     //}
     return _funiQueue;
@@ -156,9 +162,7 @@
 
 - (NSDictionary *)CRUserInfo
 {
-    NSDictionary *info = [[NSUserDefaults standardUserDefaults]objectForKey:@"crUserInfo"];
-    NSLog(@"Info: %@", info);
-    NSLog(@"CRUserInfo: %@", _CRUserInfo.description);
+    NSDictionary *info = [[NSUserDefaults standardUserDefaults]objectForKey:CRProfile];
     if (!_CRUserInfo && info)
     {
         _CRUserInfo = info;
@@ -166,11 +170,22 @@
     return _CRUserInfo;
 }
 
+/**
+ Notifications for different anime sources
+ */
 - (IBAction)triggerNotification:(NSButton *)sender {
-
+    
     // Temporary, switch to XPC once you get that working
-    NSDictionary *userInfo = @{@"shouldScan":@(sender.state == NSOnState)};
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:MALAgentCenter object:nil userInfo:userInfo deliverImmediately:YES];
+    NSDictionary *userInfo;
+    if ([self.currentSource isEqualToString:MAL])
+    {
+        userInfo = @{@"source":MALAgentCenter, @"shouldScan":@(sender.state == NSOnState)};
+    }
+    else if ([self.currentSource isEqualToString:Funimation])
+    {
+        userInfo = @{@"source":FuniAgentCenter, @"shouldScan":@(sender.state == NSOnState), @"username": self.funiUsername, @"password": self.funiPassword};
+    }
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:AnimeNotificationCenter object:nil userInfo:userInfo deliverImmediately:YES];
 }
 
 - (IBAction)refresh:(NSButton *)sender {
@@ -179,7 +194,7 @@
         [[AnimeRequester sharedInstance] makeRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] postParams:nil isPost:NO withCompletion:^(NSDictionary * json) {
             
             //_malEntries = (NSArray *)json;
-            [[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:@"malEntries"];
+            [[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:malEntries];
             
             [self _reloadTable];
             [self _updateLastRefreshForKey:@"malLastRefresh"];
@@ -189,7 +204,7 @@
     {
         [[AnimeRequester sharedInstance] makeRequest:@"crunchyroll" withParameters:[NSString stringWithFormat:@"username=%@",crUsername] postParams:nil isPost:NO withCompletion:^(NSDictionary * json) {
 
-            [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"crUserInfo"];
+            [[NSUserDefaults standardUserDefaults]setObject:json forKey:CRProfile];
             [self _reloadTable];
             [self _updateLastRefreshForKey:@"crLastRefresh"];
         }];
@@ -209,10 +224,10 @@
             [[NSUserDefaults standardUserDefaults]setObject:funiAuthToken forKey:@"funiAuthToken"];
             
             // Get Funimation queue
-            [[AnimeRequester sharedInstance]makeRequest:@"funiQueue" withParameters:nil postParams:@{@"funiAuthToken":funiAuthToken} isPost:YES withCompletion:^(NSDictionary * json) {
+            [[AnimeRequester sharedInstance]makeRequest:funiQueue withParameters:nil postParams:@{@"funiAuthToken":funiAuthToken} isPost:YES withCompletion:^(NSDictionary * json) {
                 os_log(OS_LOG_DEFAULT, "%@: Funimation results: %@", [self class], json);
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:json];
-                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"funiQueue"];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:funiQueue];
                 
                 [self _reloadTable];
             }];
@@ -282,7 +297,7 @@
         [_passwordField setEnabled:YES];
         _passwordLabel.hidden = NO;
         
-        [_notificationCheckBox setHidden:YES];
+        [_notificationCheckBox setHidden:NO];
         if (self.funiUsername)
         {
             _usernameField.stringValue = self.funiUsername;
