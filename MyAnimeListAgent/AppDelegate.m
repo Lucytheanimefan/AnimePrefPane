@@ -56,7 +56,7 @@
     
     // Set repeat interval
 #ifdef DEBUG
-    xpc_dictionary_set_int64(criteria, XPC_ACTIVITY_INTERVAL, XPC_ACTIVITY_INTERVAL_1_MIN);
+    xpc_dictionary_set_int64(criteria, XPC_ACTIVITY_INTERVAL, XPC_ACTIVITY_INTERVAL_1_MIN/2);
     xpc_dictionary_set_int64(criteria, XPC_ACTIVITY_GRACE_PERIOD, 0);
 #else
     xpc_dictionary_set_int64(criteria, XPC_ACTIVITY_INTERVAL, 12*XPC_ACTIVITY_INTERVAL_1_HOUR );

@@ -218,12 +218,6 @@
     
     __block NSDictionary *newQueue;
     
-    // I wonder if using the same auth token will work? Probably not
-    //    NSString *funiAuthToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"funiAuthToken"];
-    //
-    //    NSString *funiUsername = [[NSUserDefaults standardUserDefaults]objectForKey:@"funiUsername"];
-    //    NSString *funiPassword = [[NSUserDefaults standardUserDefaults]objectForKey:@"funiPassword"];
-    //
     if (!username || !password)
     {
 #ifdef DEBUG
@@ -239,9 +233,9 @@
         NSString *funiAuthToken = json[@"token"];
         // Get Funimation queue
         [[AnimeRequester sharedInstance] makeRequest:funiQueue withParameters:nil postParams:@{@"funiAuthToken":funiAuthToken} isPost:YES withCompletion:^(NSDictionary * json) {
-            #ifdef DEBUG
+#ifdef DEBUG
             os_log(OS_LOG_DEFAULT, "%@: Funimation results: %{public}s", [self class], [[json description]UTF8String]);
-            #endif
+#endif
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:json];
             [[NSUserDefaults standardUserDefaults] setObject:data forKey:funiQueue];
             
@@ -262,17 +256,54 @@
     for (NSDictionary *showEntry in newEntries)
     {
         NSString *title = showEntry[@"show"][@"title"];
-        NSPredicate *filter = [NSPredicate predicateWithFormat:@"title ==[c] %@ ", title];
-        NSDictionary *matchingEntry = [currentEntries filteredArrayUsingPredicate:filter][0];
-        
+#ifdef DEBUG
+        os_log(OS_LOG_DEFAULT, "%@: Currently examining funi title: %{public}s", [self class], title.UTF8String);
+#endif
+        NSPredicate *filter;
+        NSDictionary *matchingEntry;
+        if (currentEntries.count > 0)
+        {
+            filter = [NSPredicate predicateWithFormat:@"show.title ==[c] %@ ", title];
+            matchingEntry = [currentEntries filteredArrayUsingPredicate:filter][0];
+        }
+        NSUserNotification *notification;
         if (matchingEntry)
         {
-            os_log(OS_LOG_DEFAULT, "%@: Matching funimation entry from cached: %@", [self class], matchingEntry);
+            os_log(OS_LOG_DEFAULT, "%@: Matching funimation entry from cached: %{public}s", [self class], matchingEntry.description.UTF8String);
+            
+            // Check if all of the other values are the same
+            if (![matchingEntry isEqualToDictionary:showEntry])
+            {
+                notification = [[NSUserNotification alloc] init];
+                notification.title = Funimation;
+                notification.informativeText = [NSString stringWithFormat:@"Status of %@ changed on Funimation", title];
+            }
         }
         else
         {
             os_log(OS_LOG_DEFAULT, "%@: No match for funi entry", [self class]);
+            notification = [[NSUserNotification alloc] init];
+            notification.title = Funimation;
+            notification.title = [NSString stringWithFormat:@"%@ newly added Funimation queue", title];
+
         }
+        if (notification)
+            [self _deliverFuniNotification:notification fromEntry:showEntry];
+    }
+}
+
+- (void) _deliverFuniNotification: (NSUserNotification *)notif fromEntry:(NSDictionary *)newEntry
+{
+    NSImage *iconImage = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:newEntry[@"show"][@"image"]]];
+    notif.contentImage = iconImage;
+    //notif.userInfo = @{@"action_url":newEntry[@"url"]};
+    
+    os_log(OS_LOG_DEFAULT, "%@: Prepare to display notification: %{public}s", [self class], [notif.description UTF8String]);
+    
+    // Sanity check
+    if (_shouldScan)
+    {
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notif];
     }
 }
 
