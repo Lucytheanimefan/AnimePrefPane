@@ -17,6 +17,8 @@
 #define CrunchyRoll @"Crunchyroll"
 #define Funimation @"Funimation"
 
+#define AnimeAppID @"com.lucy.anime"
+
 extern NSString * const malEntries;
 extern NSString * const funiQueue;
 extern NSString * const CRProfile;

@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		7C5049341F58678200C55B28 /* com.lucy.anime.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C5049331F58678200C55B28 /* com.lucy.anime.plist */; };
 		7C56A4681F5434C8000AF25D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C56A4671F5434C8000AF25D /* MainMenu.xib */; };
 		7C56A46B1F543CDD000AF25D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C56A46A1F543CDD000AF25D /* AppKit.framework */; };
 		7C56A46D1F544D53000AF25D /* Anime.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 7C56A46C1F544D53000AF25D /* Anime.entitlements */; };
@@ -102,6 +103,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7C5049331F58678200C55B28 /* com.lucy.anime.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.lucy.anime.plist; sourceTree = "<group>"; };
 		7C56A4671F5434C8000AF25D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		7C56A46A1F543CDD000AF25D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		7C56A46C1F544D53000AF25D /* Anime.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Anime.entitlements; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 			children = (
 				7C56A47D1F5463DE000AF25D /* Constants.h */,
 				7C56A47E1F5463DE000AF25D /* Constants.m */,
+				7C5049331F58678200C55B28 /* com.lucy.anime.plist */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				7C7B891C1F4A737C009D5C8B /* transparentapple.png in Resources */,
 				7C7B890D1F490873009D5C8B /* Anime.tiff in Resources */,
 				7C56A46D1F544D53000AF25D /* Anime.entitlements in Resources */,
+				7C5049341F58678200C55B28 /* com.lucy.anime.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,6 +804,7 @@
 				7C56A47A1F545F39000AF25D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7C7B88FF1F490873009D5C8B /* Build configuration list for PBXProject "Anime" */ = {
 			isa = XCConfigurationList;

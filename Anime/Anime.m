@@ -143,30 +143,29 @@
 
 -(NSArray<NSDictionary *> *)malEntries
 {
-    //if (!_malEntries)
-    //{
-        _malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:malEntries];
-    //}
+    _malEntries = (NSArray *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)malEntries, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+    
+    if (!malEntries) _malEntries = @[];
+    //_malEntries = [[NSUserDefaults standardUserDefaults] objectForKey:malEntries];
+    
     return _malEntries;
 }
 
 - (NSDictionary *)funiQueue
 {
-    //if (!_funiQueue)
-    //{
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:funiQueue];
-    _funiQueue = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    //}
+    NSData *data = (NSData *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)funiQueue, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+    if (data) _funiQueue = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    else _funiQueue = @{};
+
     return _funiQueue;
 }
 
 - (NSDictionary *)CRUserInfo
 {
-    NSDictionary *info = [[NSUserDefaults standardUserDefaults]objectForKey:CRProfile];
-    if (!_CRUserInfo && info)
-    {
-        _CRUserInfo = info;
-    }
+    NSDictionary *info = (NSDictionary *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)CRProfile, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+    //NSDictionary *info = [[NSUserDefaults standardUserDefaults]objectForKey:CRProfile];
+    if (!_CRUserInfo && info) _CRUserInfo = info;
+
     return _CRUserInfo;
 }
 
@@ -194,7 +193,11 @@
         [[AnimeRequester sharedInstance] makeRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] postParams:nil isPost:NO withCompletion:^(NSDictionary * json) {
             
             //_malEntries = (NSArray *)json;
-            [[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:malEntries];
+            //[[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:malEntries];
+            
+            CFPreferencesSetValue((__bridge CFStringRef)malEntries, (__bridge CFArrayRef)((NSArray *)json), (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+            
+            CFPreferencesSynchronize((__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
             
             [self _reloadTable];
             [self _updateLastRefreshForKey:@"malLastRefresh"];
@@ -204,7 +207,12 @@
     {
         [[AnimeRequester sharedInstance] makeRequest:@"crunchyroll" withParameters:[NSString stringWithFormat:@"username=%@",crUsername] postParams:nil isPost:NO withCompletion:^(NSDictionary * json) {
 
-            [[NSUserDefaults standardUserDefaults]setObject:json forKey:CRProfile];
+            //[[NSUserDefaults standardUserDefaults]setObject:json forKey:CRProfile];
+            
+            CFPreferencesSetValue((__bridge CFStringRef)CRProfile, (__bridge CFPropertyListRef)json, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+            
+            CFPreferencesSynchronize((__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+            
             [self _reloadTable];
             [self _updateLastRefreshForKey:@"crLastRefresh"];
         }];
@@ -226,8 +234,13 @@
             // Get Funimation queue
             [[AnimeRequester sharedInstance]makeRequest:funiQueue withParameters:nil postParams:@{@"funiAuthToken":funiAuthToken} isPost:YES withCompletion:^(NSDictionary * json) {
                 os_log(OS_LOG_DEFAULT, "%@: Funimation results: %@", [self class], json);
+                
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:json];
-                [[NSUserDefaults standardUserDefaults] setObject:data forKey:funiQueue];
+                //[[NSUserDefaults standardUserDefaults] setObject:data forKey:funiQueue];
+                
+                CFPreferencesSetValue((__bridge CFStringRef)funiQueue, (__bridge CFDataRef)data, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+                
+                CFPreferencesSynchronize((__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
                 
                 [self _reloadTable];
             }];

@@ -206,10 +206,13 @@
         return;
     }
 #ifdef DEBUG
-    os_log(OS_LOG_DEFAULT, "%@: -----------Start scanning for Funimation notifications---------", [self class]);
+    os_log(OS_LOG_DEFAULT, "%@: ---Start scanning for Funimation notifications---", [self class]);
 #endif
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:funiQueue];
+    
+    NSData *data = (NSData *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)funiQueue, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+
     NSDictionary *currentQueue = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
 #ifdef DEBUG
     os_log(OS_LOG_DEFAULT, "%@: Current funiQueue: %{public}s", [self class], [currentQueue.description UTF8String]);
 #endif
@@ -239,6 +242,11 @@
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:json];
             [[NSUserDefaults standardUserDefaults] setObject:data forKey:funiQueue];
             
+            // Getting away from NSUserDefaults
+            CFPreferencesSetValue((__bridge CFStringRef)funiQueue, (__bridge CFDataRef)data, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+            
+            CFPreferencesSynchronize((__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+            
             newQueue = json;
             
             dispatch_semaphore_signal(sema);
@@ -261,11 +269,19 @@
 #endif
         NSPredicate *filter;
         NSDictionary *matchingEntry;
-        if (currentEntries.count > 0)
+        //        if (currentEntries.count > 0)
+        //        {
+        //os_log(OS_LOG_DEFAULT, "%@: Currently examining funi title: %{public}s", [self class], title.UTF8String);
+        filter = [NSPredicate predicateWithFormat:@"show.title ==[c] %@ ", title];
+        NSArray *filteredArrays = [currentEntries filteredArrayUsingPredicate:filter];
+        if (filteredArrays.count > 0)
         {
-            filter = [NSPredicate predicateWithFormat:@"show.title ==[c] %@ ", title];
-            matchingEntry = [currentEntries filteredArrayUsingPredicate:filter][0];
+#ifdef DEBUG
+            os_log(OS_LOG_DEFAULT, "%@: Filtered funi arrays: %{public}s", [self class], filteredArrays.description.UTF8String);
+#endif
+            matchingEntry = filteredArrays[0];
         }
+        // }
         NSUserNotification *notification;
         if (matchingEntry)
         {
@@ -284,7 +300,7 @@
             os_log(OS_LOG_DEFAULT, "%@: No match for funi entry", [self class]);
             notification = [[NSUserNotification alloc] init];
             notification.title = Funimation;
-            notification.title = [NSString stringWithFormat:@"%@ newly added Funimation queue", title];
+            notification.informativeText = [NSString stringWithFormat:@"%@ newly added Funimation queue", title];
 
         }
         if (notification)
