@@ -24,6 +24,8 @@ extern NSString * const funiQueue;
 extern NSString * const CRProfile;
 extern NSString * const funiUsernameKey;
 extern NSString * const funiPasswordKey;
+extern NSString * const crUsernameKey;
+extern NSString * const malUsernameKey;
 
 @interface Constants : NSObject
 

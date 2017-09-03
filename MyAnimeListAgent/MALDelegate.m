@@ -116,8 +116,11 @@
         return;
     }
     os_log(OS_LOG_DEFAULT, "%@: -----------Start scanning for MAL notifications---------", [self class]);
-    NSArray <NSDictionary *> *currentEntries = [[NSUserDefaults standardUserDefaults] objectForKey:malEntries];
-    NSString *malUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"malUsername"];
+    NSArray <NSDictionary *> *currentEntries = (NSArray *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)malEntries, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+
+    NSString *malUsername = (NSString *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)malUsernameKey, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+
+    
     if (!malUsername)
     {
         malUsername = @"Silent_Muse";
@@ -139,60 +142,73 @@
         // Search for the title in the old entries
         NSString *title = newEntry[@"title"];
         NSPredicate *filter = [NSPredicate predicateWithFormat:@"title ==[c] %@ ", title];
-        NSDictionary *matchingEntry = [currentEntries filteredArrayUsingPredicate:filter][0];
+        os_log(OS_LOG_DEFAULT, "%@: Examining: %{public}s", [self class], newEntry.description.UTF8String);
         
-        if (matchingEntry)
+        NSArray *filteredEntries = [currentEntries filteredArrayUsingPredicate:filter];
+        os_log(OS_LOG_DEFAULT, "%@: Filtered entries: %{public}s", [self class], filteredEntries.description.UTF8String);
+        
+        NSDictionary *matchingEntry;
+        if (filteredEntries && filteredEntries.count > 0)
         {
-            os_log(OS_LOG_DEFAULT, "%@: New entry: %{public}s, matching entry: %{public}s", [self class], [title UTF8String], [matchingEntry[@"title"] UTF8String]);
+            matchingEntry = filteredEntries[0];
+        }
+        
+        NSString *notificationInfoText = @"";
+        
+        os_log(OS_LOG_DEFAULT, "%@: Examining newEntry: %{public}s, matching entry: %{public}s", [self class], newEntry.description.UTF8String, matchingEntry.description.UTF8String);
+        
+        if ([matchingEntry isEqualToDictionary:newEntry])
+        {
+            os_log(OS_LOG_DEFAULT, "%@: Same entry", [self class]);
             
-            NSString *notificationInfoText = @"";
+        }
+        else if (newEntry[@"airing_status"] && matchingEntry[@"airing_status"] && newEntry[@"airing_status"] != matchingEntry[@"airing_status"])
+        {
             
             // Check if the episode airing status has changed
+            os_log(OS_LOG_DEFAULT, "%@: Differing airing status for %{public}s: %@ vs %@", [self class], [title UTF8String], newEntry[@"airing_status"], matchingEntry[@"airing_status"]);
             
-            if (newEntry[@"airing_status"] != matchingEntry[@"airing_status"])
-            {
-                os_log(OS_LOG_DEFAULT, "%@: Differing airing status for %{public}s: %@ vs %@", [self class], [title UTF8String], newEntry[@"airing_status"], matchingEntry[@"airing_status"]);
-                
-                notificationInfoText = [NSString stringWithFormat:@"Airing status has changed to %@.", airingStatus[newEntry[@"airing_status"]]];
-            }
-            
-            // Check if the user status has changed
-            if (newEntry[@"user_status"] != matchingEntry[@"user_status"])
-            {
-                os_log(OS_LOG_DEFAULT, "%@: Differing user status for %{public}s: %@ vs %@", [self class], [title UTF8String], newEntry[@"user_status"], matchingEntry[@"user_status"]);
-                
-                notificationInfoText = [NSString stringWithFormat:@"%@ User watch status has changed to %@", notificationInfoText, userStatus[newEntry[@"user_status"]]];
-            }
-            
-            if (notificationInfoText.length > 0)
-            {
-
-                NSString *notificationTitle = [NSString stringWithFormat:@"Status for %@ has changed", title];
-                NSUserNotification *notif = [[NSUserNotification alloc]init];
-                notif.title = notificationTitle;
-                notif.informativeText = notificationInfoText;
-                notif.otherButtonTitle = @"Dismiss";
-                notif.actionButtonTitle = @"View";
-                [self _deliverAnimeNotification:notif fromEntry:newEntry];
-            }
+            notificationInfoText = [NSString stringWithFormat:@"Airing status has changed to %@.", airingStatus[newEntry[@"airing_status"]]];
         }
-        else
+        // Check if the user status has changed
+        else if (newEntry[@"user_status"] != matchingEntry[@"user_status"])
+        {
+            os_log(OS_LOG_DEFAULT, "%@: Differing user status for %{public}s: %@ vs %@", [self class], [title UTF8String], newEntry[@"user_status"], matchingEntry[@"user_status"]);
+            
+            notificationInfoText = [NSString stringWithFormat:@"%@ User watch status has changed to %@", notificationInfoText, userStatus[newEntry[@"user_status"]]];
+        }
+        
+        if (notificationInfoText.length > 0)
+        {
+            
+            NSString *notificationTitle = [NSString stringWithFormat:@"Status for %@ has changed", title];
+            NSUserNotification *notif = [[NSUserNotification alloc]init];
+            notif.title = notificationTitle;
+            notif.informativeText = notificationInfoText;
+            notif.otherButtonTitle = @"Dismiss";
+            notif.actionButtonTitle = @"View";
+            [self _deliverAnimeNotification:notif fromEntry:newEntry];
+        }
+        
+        if (!matchingEntry && newEntry)
         {
             // TODO: fix, this is not working as expected
             // No matching entry, a new anime was added
-            
+            os_log(OS_LOG_DEFAULT, "%@: No matching entry for %{public}s", [self class], [title UTF8String]);
             NSUserNotification *notif = [[NSUserNotification alloc]init];
             notif.title = @"New anime added";
             notif.informativeText = [NSString stringWithFormat:@"%@ added to list", newEntry[@"title"]];
             
-            //[self _deliverAnimeNotification:notif fromEntry:newEntry];
-
+            [self _deliverAnimeNotification:notif fromEntry:newEntry];
         }
     }
     
+    CFPreferencesSetValue((__bridge CFStringRef)malEntries, (__bridge CFArrayRef)((NSArray *)newEntries), (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    
+    CFPreferencesSynchronize((__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     // Update the user defaults
     //#ifndef DEBUG
-    [[NSUserDefaults standardUserDefaults] setObject:newEntries forKey:@"malEntries"];
+    //[[NSUserDefaults standardUserDefaults] setObject:newEntries forKey:@"malEntries"];
     //#endif
 }
 
@@ -221,17 +237,18 @@
     
     __block NSDictionary *newQueue;
     
-    if (!username || !password)
+    NSString *funiusername = CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)funiUsernameKey, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+    if (!funiusername || !password)
     {
 #ifdef DEBUG
-        os_log_error(OS_LOG_DEFAULT, "%@: No available funimation username %{public}s or password %{public}s", [self class], [username UTF8String], [password UTF8String]);
+        os_log_error(OS_LOG_DEFAULT, "%@: No available funimation username %{public}s or password %{public}s", [self class], [funiusername UTF8String], [password UTF8String]);
 #endif
         // TODO: display a modal sheet
         return;
     }
     
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-    [[AnimeRequester sharedInstance]makeRequest:@"funiLogin" withParameters:nil postParams:@{@"username":username, @"password":password} isPost:YES withCompletion:^(NSDictionary *json) {
+    [[AnimeRequester sharedInstance]makeRequest:@"funiLogin" withParameters:nil postParams:@{@"username":funiusername, @"password":password} isPost:YES withCompletion:^(NSDictionary *json) {
         
         NSString *funiAuthToken = json[@"token"];
         // Get Funimation queue
@@ -290,9 +307,10 @@
             // Check if all of the other values are the same
             if (![matchingEntry isEqualToDictionary:showEntry])
             {
-                notification = [[NSUserNotification alloc] init];
-                notification.title = Funimation;
-                notification.informativeText = [NSString stringWithFormat:@"Status of %@ changed on Funimation", title];
+                // TODO: what do I want to check for?
+//                notification = [[NSUserNotification alloc] init];
+//                notification.title = Funimation;
+//                notification.informativeText = [NSString stringWithFormat:@"Status of %@ changed on Funimation", title];
             }
         }
         else
@@ -300,7 +318,7 @@
             os_log(OS_LOG_DEFAULT, "%@: No match for funi entry", [self class]);
             notification = [[NSUserNotification alloc] init];
             notification.title = Funimation;
-            notification.informativeText = [NSString stringWithFormat:@"%@ newly added Funimation queue", title];
+            notification.informativeText = [NSString stringWithFormat:@"%@ newly added to queue", title];
 
         }
         if (notification)

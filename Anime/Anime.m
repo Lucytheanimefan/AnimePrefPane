@@ -50,6 +50,8 @@
 {
     NSString *malUsername;
     NSString *crUsername;
+    BOOL malNotificationActive;
+    BOOL funiNotificationActive;
 }
 
 @synthesize sources = _sources;
@@ -62,6 +64,8 @@
     _outlineView.dataSource = self;
     _outlineView.delegate = self;
     
+    malNotificationActive = NO;
+    funiNotificationActive = NO;
     
     [_usernameField setTarget:self];
     [_usernameField setAction:@selector(setUsername:)];
@@ -91,16 +95,19 @@
         if ([source isEqualToString:MAL])
         {
             malUsername = _usernameField.stringValue;
-            [[NSUserDefaults standardUserDefaults] setObject:malUsername forKey:@"malUsername"];
+
+            CFPreferencesSetValue((__bridge CFStringRef)malUsernameKey, (__bridge CFStringRef)_usernameField.stringValue, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
         }
         else if ([source isEqualToString:CrunchyRoll])
         {
             crUsername = _usernameField.stringValue;
-            [[NSUserDefaults standardUserDefaults] setObject:crUsername forKey:@"crUsername"];
+   
+             CFPreferencesSetValue((__bridge CFStringRef)crUsernameKey, (__bridge CFStringRef)_usernameField.stringValue, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
         }
         else if ([source isEqualToString:Funimation] && _passwordField.stringValue)
         {
-            [[NSUserDefaults standardUserDefaults]setObject:_usernameField.stringValue forKey:funiUsernameKey];
+
+            CFPreferencesSetValue((__bridge CFStringRef)funiUsernameKey, (__bridge CFStringRef)_usernameField.stringValue, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
             
             // Really shouldn't be doing this...
             [[NSUserDefaults standardUserDefaults]setObject:_passwordField.stringValue forKey:funiPasswordKey];
@@ -131,7 +138,9 @@
 
 - (NSString *)funiUsername
 {
-    _funiUsername = [[NSUserDefaults standardUserDefaults]objectForKey:funiUsernameKey];
+    _funiUsername = (NSString *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)funiUsernameKey, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+
+    //_funiUsername = [[NSUserDefaults standardUserDefaults]objectForKey:funiUsernameKey];
     return _funiUsername;
 }
 
@@ -179,10 +188,12 @@
     if ([self.currentSource isEqualToString:MAL])
     {
         userInfo = @{@"source":MALAgentCenter, @"shouldScan":@(sender.state == NSOnState)};
+        malNotificationActive = sender.state == NSOnState;
     }
     else if ([self.currentSource isEqualToString:Funimation])
     {
         userInfo = @{@"source":FuniAgentCenter, @"shouldScan":@(sender.state == NSOnState), @"username": self.funiUsername, @"password": self.funiPassword};
+        funiNotificationActive = sender.state == NSOnState;
     }
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:AnimeNotificationCenter object:nil userInfo:userInfo deliverImmediately:YES];
 }
@@ -191,9 +202,6 @@
     if ([self.currentSource isEqualToString:MAL])
     {
         [[AnimeRequester sharedInstance] makeRequest:@"myanimelist" withParameters:[NSString stringWithFormat:@"username=%@",malUsername] postParams:nil isPost:NO withCompletion:^(NSDictionary * json) {
-            
-            //_malEntries = (NSArray *)json;
-            //[[NSUserDefaults standardUserDefaults] setObject:(NSArray *)json forKey:malEntries];
             
             CFPreferencesSetValue((__bridge CFStringRef)malEntries, (__bridge CFArrayRef)((NSArray *)json), (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
             
@@ -291,6 +299,7 @@
         col.headerCell.stringValue = @"MyAnimeList";
         [self _hidePasswordField];
         [_notificationCheckBox setHidden:NO];
+         _notificationCheckBox.state = malNotificationActive;
         _usernameField.stringValue = malUsername;
         [self _reloadTable];
     }
@@ -311,6 +320,7 @@
         _passwordLabel.hidden = NO;
         
         [_notificationCheckBox setHidden:NO];
+        _notificationCheckBox.state = funiNotificationActive;
         if (self.funiUsername)
         {
             _usernameField.stringValue = self.funiUsername;
