@@ -174,7 +174,10 @@
     NSDictionary *info = (NSDictionary *)CFBridgingRelease(CFPreferencesCopyValue((__bridge CFStringRef)CRProfile, (__bridge CFStringRef)AnimeAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
     //NSDictionary *info = [[NSUserDefaults standardUserDefaults]objectForKey:CRProfile];
     if (!_CRUserInfo && info) _CRUserInfo = info;
-
+    
+#ifdef DEBUG
+    os_log(OS_LOG_DEFAULT, "%@: CRUserInfo (before it crashes) %{public}s:", [self class], _CRUserInfo.description.UTF8String);
+#endif
     return _CRUserInfo;
 }
 
